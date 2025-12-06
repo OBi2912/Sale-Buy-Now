@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Sale Buy Now</title>
+
+    <link rel="shortcut icon" href="./assets/images/logo/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./assets/css/style-prefix.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        .checkout-container {
+            padding: 40px 0;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .checkout-grid {
+                grid-template-columns: 1.5fr 1fr;
+            }
+        }
+
+        .checkout-card {
+            background: var(--white);
+            border: 1px solid var(--cultured);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+        }
+
+        .checkout-title {
+            font-size: var(--fs-4);
+            font-weight: var(--weight-600);
+            color: var(--onyx);
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--cultured);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: var(--fs-7);
+            color: var(--sonic-silver);
+            margin-bottom: 5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--cultured);
+            border-radius: var(--border-radius-sm);
+            font-size: var(--fs-7);
+        }
+
+        .order-summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--cultured);
+        }
+
+        .order-summary-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-right: 10px;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-title {
+            font-size: var(--fs-7);
+            color: var(--onyx);
+            font-weight: var(--weight-500);
+        }
+
+        .item-qty {
+            font-size: var(--fs-9);
+            color: var(--sonic-silver);
+        }
+
+        .item-price {
+            font-size: var(--fs-7);
+            color: var(--salmon-pink);
+            font-weight: var(--weight-600);
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: var(--fs-5);
+            font-weight: var(--weight-600);
+            color: var(--onyx);
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 2px solid var(--cultured);
+        }
+
+        .payment-methods {
+            margin-top: 20px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid var(--cultured);
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .payment-option input {
+            width: auto;
+        }
+
+        .btn-place-order {
+            background: var(--salmon-pink);
+            color: var(--white);
+            width: 100%;
+            padding: 12px;
+            border-radius: var(--border-radius-md);
+            font-weight: var(--weight-600);
+            text-transform: uppercase;
+            margin-top: 20px;
+            transition: var(--transition-timing);
+        }
+
+        .btn-place-order:hover {
+            background: var(--eerie-black);
+        }
+
+        .payment-content {
+            padding: 15px;
+            border: 1px solid var(--cultured);
+            border-top: none;
+            border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
+            margin-bottom: 10px;
+            margin-top: -10px;
+            background: #f9f9f9;
+        }
+
+        .payment-content.hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-main">
+            <div class="container">
+                <a href="index.html" class="header-logo">
+                    <img src="./assets/images/logo/logo.svg" alt="Sale Buy Now's logo" width="120" height="36">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container checkout-container">
+            <h1 class="title" data-i18n="checkout">Checkout</h1>
+
+            <form id="checkout-form">
+                <div class="checkout-grid">
+
+                    <!-- Billing Details -->
+                    <div class="checkout-card">
+                        <h2 class="checkout-title" data-i18n="billing_details">Billing Details</h2>
+
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="full_name">Full Name</label>
+                            <input type="text" class="form-input" name="fullname" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="email_label">Email:</label>
+                            <input type="email" class="form-input" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="address_label">Address:</label>
+                            <input type="text" class="form-input" name="address" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="city">City</label>
+                            <input type="text" class="form-input" name="city" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="zip_code">Zip Code</label>
+                            <input type="text" class="form-input" name="zip" required>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary & Payment -->
+                    <div class="checkout-card">
+                        <h2 class="checkout-title" data-i18n="your_order">Your Order</h2>
+
+                        <div id="order-summary-items">
+                            <!-- Items will be injected here -->
+                        </div>
+
+                        <div class="order-total">
+                            <span data-i18n="total">Total</span>
+                            <span id="order-total-price">$0.00</span>
+                        </div>
+
+                        <div class="payment-methods">
+                            <h3 class="checkout-title" data-i18n="payment_method">Payment Method</h3>
+
+                            <!-- Credit Card Option -->
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="credit_card" checked>
+                                <span data-i18n="credit_card">Credit Card</span>
+                                <ion-icon name="card-outline"></ion-icon>
+                            </label>
+                            <div class="payment-content" id="credit_card_form">
+                                <div class="form-group">
+                                    <label class="form-label" data-i18n="card_number">Card Number</label>
+                                    <input type="text" class="form-input" placeholder="0000 0000 0000 0000">
+                                </div>
+                                <div style="display: flex; gap: 15px;">
+                                    <div class="form-group" style="flex: 1;">
+                                        <label class="form-label" data-i18n="expiry_date">Expiry Date</label>
+                                        <input type="text" class="form-input" placeholder="MM/YY">
+                                    </div>
+                                    <div class="form-group" style="flex: 1;">
+                                        <label class="form-label" data-i18n="cvv">CVV</label>
+                                        <input type="text" class="form-input" placeholder="123">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" data-i18n="cardholder_name">Cardholder Name</label>
+                                    <input type="text" class="form-input">
+                                </div>
+                            </div>
+
+                            <!-- PayPal Option -->
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="paypal">
+                                <span data-i18n="paypal">PayPal</span>
+                                <ion-icon name="logo-paypal"></ion-icon>
+                            </label>
+                            <div class="payment-content hidden" id="paypal_form">
+                                <p data-i18n="paypal_desc" style="font-size: var(--fs-7); color: var(--sonic-silver);">
+                                    You will be redirected to PayPal to complete your purchase.</p>
+                            </div>
+
+                            <!-- COD Option -->
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="cod">
+                                <span data-i18n="cod">Cash on Delivery</span>
+                                <ion-icon name="cash-outline"></ion-icon>
+                            </label>
+                            <div class="payment-content hidden" id="cod_form">
+                                <p data-i18n="cod_desc" style="font-size: var(--fs-7); color: var(--sonic-silver);">Pay
+                                    with cash upon delivery.</p>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-place-order" data-i18n="place_order">Place Order</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="copyright">
+                    Copyright 2027 &copy; <a href="#">Sale Buy Now</a> all rights by OBi reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./assets/js/i18n.js"></script>
+    <script src="./assets/js/checkout.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>
