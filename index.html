@@ -10,7 +10,7 @@
   <!--
     - favicon
   -->
-  <link rel="shortcut icon" href="./assets/images/logo/logo.svg" type="image/svg+xml">
+  <link rel="shortcut icon" href="./assets/images/icons/salebuy.svg" type="image/svg+xml">
 
   <!--
     - custom css link
@@ -36,7 +36,7 @@
     - MODAL
   -->
 
-  <div class="modal newsletter-modal" data-modal>
+  <div class="modal newsletter-modal closed" data-modal>
 
     <div class="modal-close-overlay" data-modal-overlay></div>
 
@@ -245,6 +245,27 @@
   </div>
 
 
+  <!--
+     - INFO MODAL (About Us, Contact, etc.)
+   -->
+
+  <div class="modal closed" data-info-modal>
+    <div class="modal-close-overlay" data-info-modal-overlay></div>
+    <div class="modal-content info-modal-content">
+      <button class="modal-close-btn" data-info-modal-close>
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+
+      <div class="info-content" id="info-modal-body">
+        <h3 id="info-modal-title">Title</h3>
+        <div id="info-modal-text">
+          <!-- Content will be injected here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
 
 
@@ -357,7 +378,8 @@
       <div class="container">
 
         <a href="#" class="header-logo">
-          <img src="./assets/images/logo/logo.svg" alt="Sale Buy Now's logo" width="120" height="36">
+          <img src="./assets/images/icons/salebuy.svg" alt="Sale Buy Now's logo" width="120" height="36">
+          <span class="site-name">Sale Buy Now</span>
         </a>
 
         <div class="header-search-container">
@@ -1045,7 +1067,7 @@
                 <p class="category-item-amount">(53)</p>
               </div>
 
-              <a href="#" class="category-btn" data-i18n="show_all">Show all</a>
+              <a href="#" class="category-btn" data-category="dress" data-i18n="show_all">Show all</a>
 
             </div>
 
@@ -1065,7 +1087,7 @@
                 <p class="category-item-amount">(58)</p>
               </div>
 
-              <a href="#" class="category-btn" data-i18n="show_all">Show all</a>
+              <a href="#" class="category-btn" data-category="winter-wear" data-i18n="show_all">Show all</a>
 
             </div>
 
@@ -1085,7 +1107,7 @@
                 <p class="category-item-amount">(68)</p>
               </div>
 
-              <a href="#" class="category-btn" data-i18n="show_all">Show all</a>
+              <a href="#" class="category-btn" data-category="glasses" data-i18n="show_all">Show all</a>
 
             </div>
 
@@ -1105,7 +1127,7 @@
                 <p class="category-item-amount">(84)</p>
               </div>
 
-              <a href="#" class="category-btn" data-i18n="show_all">Show all</a>
+              <a href="#" class="category-btn" data-category="shorts" data-i18n="show_all">Show all</a>
 
             </div>
 
@@ -1125,7 +1147,7 @@
                 <p class="category-item-amount">(35)</p>
               </div>
 
-              <a href="#" class="category-btn" data-i18n="show_all">Show all</a>
+              <a href="#" class="category-btn" data-category="t-shirts" data-i18n="show_all">Show all</a>
 
             </div>
 
@@ -1145,7 +1167,7 @@
                 <p class="category-item-amount">(16)</p>
               </div>
 
-              <a href="#" class="category-btn" data-i18n="show_all">Show all</a>
+              <a href="#" class="category-btn" data-category="jacket" data-i18n="show_all">Show all</a>
 
             </div>
 
@@ -1165,7 +1187,7 @@
                 <p class="category-item-amount">(27)</p>
               </div>
 
-              <a href="#" class="category-btn" data-i18n="show_all">Show all</a>
+              <a href="#" class="category-btn" data-category="watch" data-i18n="show_all">Show all</a>
 
             </div>
 
@@ -1185,7 +1207,7 @@
                 <p class="category-item-amount">(39)</p>
               </div>
 
-              <a href="#" class="category-btn" data-i18n="show_all">Show all</a>
+              <a href="#" class="category-btn" data-category="hat" data-i18n="show_all">Show all</a>
 
             </div>
 
@@ -3332,8 +3354,8 @@
 
                 <div class="service-content">
 
-                  <h3 class="service-title" data-i18n="get_money_back">30% money back</h3>
-                  <p class="service-desc">For Order Over $100</p>
+                  <h3 class="service-title" data-i18n="get_money_back">Get 20% off 1 item</h3>
+                  <p class="service-desc">For orders over $100</p>
 
                 </div>
 
@@ -3577,7 +3599,7 @@
           </li>
 
           <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Health</a>
+            <a href="#" class="footer-nav-link" data-i18n="health">Health</a>
           </li>
 
           <li class="footer-nav-item">

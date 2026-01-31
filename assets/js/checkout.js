@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 localStorage.removeItem('shopping-cart');
 
                 // Redirect to home page
-                window.location.href = 'index.html';
+                window.location.href = 'index.html?from=checkout';
             }, 2000);
         });
     }

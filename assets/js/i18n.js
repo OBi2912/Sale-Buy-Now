@@ -98,6 +98,7 @@ const translations = {
         "terms_conditions": "Terms and conditions",
         "about_us": "About us",
         "secure_payment": "Secure payment",
+        "health": "Health",
         "contact": "Contact",
         "address_label": "Address:",
         "phone_label": "Phone:",
@@ -197,7 +198,22 @@ const translations = {
         "sign_up": "Sign Up",
         "no_account": "Don't have an account?",
         "have_account": "Already have an account?",
-        "remove_product": "Remove Product"
+        "remove_product": "Remove Product",
+        "continue_shopping": "Continue shopping",
+        "home_text": "Home",
+        "about_us": "About Us",
+        "contact_us": "Contact Us",
+        "my_account": "My Account",
+        "return_policy": "Return Policy",
+        "about_us_content": "<p>Welcome to <strong>Sale Buy Now</strong>, your premier destination for the latest in fashion, electronics, and lifestyle products.</p><p>Founded in 2026, our mission is to provide high-quality items at competitive prices, ensuring that luxury and trending styles are accessible to everyone.</p><p>Our dedicated team works tirelessly to source the best products from around the globe, focusing on quality, durability, and style.</p>",
+        "our_company_content": "<p><strong>Sale Buy Now Inc.</strong> is a leading global e-commerce retailer dedicated to bringing you the best products at unbeatable prices.</p><div class=\"list-item\">Global reach with local expertise</div><div class=\"list-item\">Eco-friendly packaging initiatives</div><div class=\"list-item\">Empowering thousands of sellers worldwide</div><p>We believe in the power of technology to connect people and products in ways that were previously impossible.</p>",
+        "contact_us_content": "<p>We'd love to hear from you! Whether you have a question about our products, shipping, or anything else, our team is ready to help.</p><div class=\"contact-card\"><div class=\"contact-item\"><ion-icon name=\"location-outline\"></ion-icon><span><strong>Address:</strong> 419 State 414 Rte, Beaver Dams, NY 14812, USA</span></div><div class=\"contact-item\"><ion-icon name=\"call-outline\"></ion-icon><span><strong>Phone:</strong> (607) 936-8058</span></div><div class=\"contact-item\"><ion-icon name=\"mail-outline\"></ion-icon><span><strong>Email:</strong> support@salebuynow.com</span></div></div><p>Our support team is available 24/7 to assist you with any inquiries.</p>",
+        "delivery_content": "<p>We offer fast and reliable shipping to over 200 countries worldwide. Your satisfaction is our priority.</p><div class=\"list-item\"><strong>Standard Shipping:</strong> 5-7 business days.</div><div class=\"list-item\"><strong>Express Shipping:</strong> 2-3 business days.</div><div class=\"list-item\"><strong>Free Shipping:</strong> On all orders over $55.</div><p>Once your order is shipped, you will receive a tracking number via email to monitor its progress.</p>",
+        "legal_notice_content": "<p><strong>Ownership:</strong> This website is operated and managed by Sale Buy Now Inc.</p><p><strong>Copyright:</strong> All content, including images, graphics, text, and overall design, are protected by copyright laws.</p><p><strong>Liability:</strong> While we strive for absolute accuracy, we are not liable for any typographical errors, pricing discrepancies, or inventory fluctuations.</p><p>For further legal inquiries, please contact our legal department at legal@salebuynow.com.</p>",
+        "terms_conditions_content": "<p>By accessing and using this website, you agree to be legally bound by these terms and conditions.</p><p><strong>Purchases:</strong> All orders are subject to acceptance, availability, and verification of payment.</p><p><strong>Privacy:</strong> Your data is handled with the utmost care according to our Privacy Policy, ensuring complete confidentiality.</p><p><strong>Returns:</strong> We offer a 30-day return policy for most items in their original condition.</p>",
+        "secure_payment_content": "<p>Your security is our top priority. We use industry-standard encryption technologies to protect your financial and personal information.</p><div style=\"margin: 20px 0;\"><img src=\"./assets/images/payment.png\" alt=\"Payment Methods\" style=\"max-width: 100%; border-radius: 10px;\"></div><div class=\"list-item\">Secure SSL Encryption</div><div class=\"list-item\">Fraud Prevention Systems</div><div class=\"list-item\">Multiple Payment Options (Visa, Mastercard, PayPal)</div>",
+        "return_policy_content": "<p>We want you to be completely satisfied with your purchase. If you're not, we're here to help.</p><div class=\"list-item\">30-day return window for most items</div><div class=\"list-item\">Items must be in original, unused condition</div><div class=\"list-item\">Full refund or exchange options available</div><p>To initiate a return, please visit the My Account section or contact our support team.</p>",
+        "sitemap_content": "<div class=\"sitemap-grid\"><div class=\"sitemap-col\"><h4>Categories</h4><ul><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"fashion\">Fashion</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"electronic\">Electronics</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"cosmetics\">Cosmetics</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"health\">Health</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"watch\">Watches</a></li></ul></div><div class=\"sitemap-col\"><h4>Quick Links</h4><ul><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"home\">Home</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"about_us\">About Us</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"contact_us\">Contact Us</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"my_account\">My Account</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"return_policy\">Return Policy</a></li></ul></div></div>"
     },
     "es-ES": {
         "free_shipping": "Envío Gratis",
@@ -298,6 +314,7 @@ const translations = {
         "terms_conditions": "Términos y condiciones",
         "about_us": "Sobre nosotros",
         "secure_payment": "Pago seguro",
+        "health": "Salud",
         "contact": "Contacto",
         "address_label": "Dirección:",
         "phone_label": "Teléfono:",
@@ -397,7 +414,22 @@ const translations = {
         "sign_up": "Registrarse",
         "no_account": "¿No tienes una cuenta?",
         "have_account": "¿Ya tienes una cuenta?",
-        "remove_product": "Eliminar producto"
+        "remove_product": "Eliminar producto",
+        "continue_shopping": "Continuar comprando",
+        "home_text": "Inicio",
+        "about_us": "Sobre nosotros",
+        "contact_us": "Contáctanos",
+        "my_account": "Mi cuenta",
+        "return_policy": "Política de devoluciones",
+        "about_us_content": "<p>Bienvenido a <strong>Sale Buy Now</strong>, su destino principal para lo último en moda, electrónica y productos de estilo de vida.</p><p>Fundada en 2026, nuestra misión es proporcionar artículos de alta calidad a precios competitivos, asegurando que el lujo y los estilos de tendencia sean accesibles para todos.</p><p>Nuestro equipo dedicado trabaja incansablemente para obtener los mejores productos de todo el mundo, centrándose en la calidad, durabilidad y estilo.</p>",
+        "our_company_content": "<p><strong>Sale Buy Now Inc.</strong> es un minorista de comercio electrónico global líder dedicado a ofrecerle los mejores productos a precios inmejorables.</p><div class=\"list-item\">Alcance global con experiencia local</div><div class=\"list-item\">Iniciativas de embalaje ecológico</div><div class=\"list-item\">Empoderando a miles de vendedores en todo el mundo</div><p>Creemos en el poder de la tecnología para conectar a las personas y los productos de formas que antes eran imposibles.</p>",
+        "contact_us_content": "<p>¡Nos encantaría saber de usted! Ya sea que tenga una pregunta sobre nuestros productos, envío o cualquier otra cosa, nuestro equipo está listo para ayudar.</p><div class=\"contact-card\"><div class=\"contact-item\"><ion-icon name=\"location-outline\"></ion-icon><span><strong>Dirección:</strong> 419 State 414 Rte, Beaver Dams, NY 14812, EE. UU.</span></div><div class=\"contact-item\"><ion-icon name=\"call-outline\"></ion-icon><span><strong>Teléfono:</strong> (607) 936-8058</span></div><div class=\"contact-item\"><ion-icon name=\"mail-outline\"></ion-icon><span><strong>Correo electrónico:</strong> support@salebuynow.com</span></div></div><p>Nuestro equipo de soporte está disponible 24/7 para ayudarle con cualquier consulta.</p>",
+        "delivery_content": "<p>Ofrecemos envíos rápidos y confiables a más de 200 países en todo el mundo. Su satisfacción es nuestra prioridad.</p><div class=\"list-item\"><strong>Envío Estándar:</strong> 5-7 días hábiles.</div><div class=\"list-item\"><strong>Envío Express:</strong> 2-3 días hábiles.</div><div class=\"list-item\"><strong>Envío Gratis:</strong> En todos los pedidos superiores a $55.</div><p>Una vez que se envíe su pedido, recibirá un número de seguimiento por correo electrónico para monitorear su progreso.</p>",
+        "legal_notice_content": "<p><strong>Propiedad:</strong> Este sitio web es operado y administrado por Sale Buy Now Inc.</p><p><strong>Derechos de autor:</strong> Todo el contenido, incluidas imágenes, gráficos, texto y diseño general, están protegidos por las leyes de derechos de autor.</p><p><strong>Responsabilidad:</strong> Si bien nos esforzamos por la precisión absoluta, no somos responsables de errores tipográficos, discrepancias de precios o fluctuaciones de inventario.</p><p>Para más consultas legales, comuníquese con nuestro departamento legal en legal@salebuynow.com.</p>",
+        "terms_conditions_content": "<p>Al acceder y utilizar este sitio web, usted acepta estar legalmente vinculado por estos términos y condiciones.</p><p><strong>Compras:</strong> Todos los pedidos están sujetos a aceptación, disponibilidad y verificación de pago.</p><p><strong>Privacidad:</strong> Sus datos se manejan con el mayor cuidado de acuerdo con nuestra Política de Privacidad, garantizando una total confidencialidad.</p><p><strong>Devoluciones:</strong> Ofrecemos una política de devolución de 30 días para la mayoría de los artículos en su estado original.</p>",
+        "secure_payment_content": "<p>Su seguridad es nuestra máxima prioridad. Utilizamos tecnologías de cifrado estándar de la industria para proteger su información financiera y personal.</p><div style=\"margin: 20px 0;\"><img src=\"./assets/images/payment.png\" alt=\"Métodos de pago\" style=\"max-width: 100%; border-radius: 10px;\"></div><div class=\"list-item\">Cifrado SSL seguro</div><div class=\"list-item\">Sistemas de prevención de fraude</div><div class=\"list-item\">Múltiples opciones de pago (Visa, Mastercard, PayPal)</div>",
+        "return_policy_content": "<p>Queremos que esté completamente satisfecho con su compra. Si no es así, estamos aquí para ayudarle.</p><div class=\"list-item\">Plazo de devolución de 30 días para la mayoría de los artículos</div><div class=\"list-item\">Los artículos deben estar en su estado original y sin usar</div><div class=\"list-item\">Opciones de reembolso total o cambio disponibles</div><p>Para iniciar una devolución, visite la sección Mi cuenta o contacte con nuestro equipo de soporte.</p>",
+        "sitemap_content": "<div class=\"sitemap-grid\"><div class=\"sitemap-col\"><h4>Categorías</h4><ul><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"fashion\">Moda</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"electronic\">Electrónica</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"cosmetics\">Cosméticos</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"health\">Salud</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"watch\">Relojes</a></li></ul></div><div class=\"sitemap-col\"><h4>Enlaces rápidos</h4><ul><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"home\">Inicio</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"about_us\">Sobre nosotros</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"contact_us\">Contáctanos</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"my_account\">Mi cuenta</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"return_policy\">Política de devoluciones</a></li></ul></div></div>"
     },
     "fr": {
         "free_shipping": "Livraison Gratuite",
@@ -498,6 +530,7 @@ const translations = {
         "terms_conditions": "Termes et conditions",
         "about_us": "À propos de nous",
         "secure_payment": "Paiement sécurisé",
+        "health": "Santé",
         "contact": "Contact",
         "address_label": "Adresse :",
         "phone_label": "Téléphone :",
@@ -596,8 +629,23 @@ const translations = {
         "sign_in": "Se connecter",
         "sign_up": "S'inscrire",
         "no_account": "Vous n'avez pas de compte ?",
-        "have_account": "Vous avez déjà un compte ?",
-        "remove_product": "Supprimer le produit"
+        "have_account": "Vous avez déjà un compte?",
+        "remove_product": "Supprimer le produit",
+        "continue_shopping": "Continuer vos achats",
+        "home_text": "Accueil",
+        "about_us": "À propos de nous",
+        "contact_us": "Contactez-nous",
+        "my_account": "Mon compte",
+        "return_policy": "Politique de retour",
+        "about_us_content": "<p>Bienvenue chez <strong>Sale Buy Now</strong>, votre destination de choix pour les dernières nouveautés en matière de mode, d'électronique et de produits de style de vie.</p><p>Fondée en 2026, notre mission est de fournir des articles de haute qualité à des prix compétitifs, garantissant que le luxe et les styles tendance sont accessibles à tous.</p><p>Notre équipe dévouée travaille sans relâche pour dénicher les meilleurs produits du monde entier, en mettant l'accent sur la qualité, la durabilité et le style.</p>",
+        "our_company_content": "<p><strong>Sale Buy Now Inc.</strong> est un leader mondial de la vente au détail en ligne dédié à vous offrir les meilleurs produits à des prix imbattables.</p><div class=\"list-item\">Portée mondiale avec expertise locale</div><div class=\"list-item\">Initiatives d'emballage éco-responsables</div><div class=\"list-item\">Soutien à des milliers de vendeurs dans le monde</div><p>Nous croyons au pouvoir de la technologie pour connecter les gens et les produits de manière autrefois impossible.</p>",
+        "contact_us_content": "<p>Nous serions ravis de vous entendre ! Que vous ayez une question sur nos produits, l'expédition ou toute otra chose, notre équipe est prête à vous aider.</p><div class=\"contact-card\"><div class=\"contact-item\"><ion-icon name=\"location-outline\"></ion-icon><span><strong>Adresse:</strong> 419 State 414 Rte, Beaver Dams, NY 14812, USA</span></div><div class=\"contact-item\"><ion-icon name=\"call-outline\"></ion-icon><span><strong>Téléphone:</strong> (607) 936-8058</span></div><div class=\"contact-item\"><ion-icon name=\"mail-outline\"></ion-icon><span><strong>Email:</strong> support@salebuynow.com</span></div></div><p>Notre équipe de support est disponible 24h/24 et 7j/7 pour vous aider dans toutes vos demandes.</p>",
+        "delivery_content": "<p>Nous offrons une expédition rapide et fiable dans plus de 200 pays à travers le monde. Votre satisfaction est notre priorité.</p><div class=\"list-item\"><strong>Livraison Standard:</strong> 5-7 jours ouvrables.</div><div class=\"list-item\"><strong>Livraison Express:</strong> 2-3 jours ouvrables.</div><div class=\"list-item\"><strong>Livraison Gratuite:</strong> Sur toutes les commandes de plus de 55 $.</div><p>Une vez que votre commande est expédiée, vous recevrez un numéro de suivi par e-mail pour suivre sa progression.</p>",
+        "legal_notice_content": "<p><strong>Propriété:</strong> Ce site web est exploité et géré par Sale Buy Now Inc.</p><p><strong>Droits d'auteur:</strong> Tout le contenu, y compris les images, les graphiques, le texte et la conception globale, est protégé par les lois sur le droit d'auteur.</p><p><strong>Responsabilité:</strong> Bien que nous nous efforcions d'une précision absolue, nous ne sommes pas responsables des erreurs typographiques, des écarts de prix ou des fluctuations de stocks.</p><p>Pour toda autre question juridique, veuillez contacter notre service juridique à legal@salebuynow.com.</p>",
+        "terms_conditions_content": "<p>En accédant et en utilisant ce site web, vous acceptez d'être légalement lié par ces termes et conditions.</p><p><strong>Achats:</strong> Toutes les commandes sont soumises à l'acceptation, à la disponibilité et à la vérification du paiement.</p><p><strong>Confidentialité:</strong> Vos données sont traitées avec le plus grand soin conformément à notre politique de confidentialité, garantissant une totale confidentialité.</p><p><strong>Retours:</strong> Nous offrons une politique de retour de 30 jours pour la plupart des articles dans leur état d'origine.</p>",
+        "secure_payment_content": "<p>Votre sécurité est notre priorité absolue. Nous utilisons des technologies de cryptage standard de l'industrie pour protéger vos informations financières et personnelles.</p><div style=\"margin: 20px 0;\"><img src=\"./assets/images/payment.png\" alt=\"Méthodes de paiement\" style=\"max-width: 100%; border-radius: 10px;\"></div><div class=\"list-item\">Cryptage SSL sécurisé</div><div class=\"list-item\">Systèmes de prévention de la fraude</div><div class=\"list-item\">Plusieurs options de paiement (Visa, Mastercard, PayPal)</div>",
+        "return_policy_content": "<p>Nous voulons que vous soyez entièrement satisfait de votre achat. Si ce n'est pas le cas, nous sommes là pour vous aider.</p><div class=\"list-item\">Délai de retour de 30 jours pour la plupart des articles</div><div class=\"list-item\">Les articles doivent être dans leur état d'origine et inutilisés</div><div class=\"list-item\">Options de remboursement complet ou d'échange disponibles</div><p>Pour initier un retour, veuillez visiter la section Mon compte ou contacter notre équipe d'assistance.</p>",
+        "sitemap_content": "<div class=\"sitemap-grid\"><div class=\"sitemap-col\"><h4>Catégories</h4><ul><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"fashion\">Mode</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"electronic\">Électronique</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"cosmetics\">Cosmétiques</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"health\">Santé</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"watch\">Montres</a></li></ul></div><div class=\"sitemap-col\"><h4>Liens rapides</h4><ul><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"home\">Accueil</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"about_us\">À propos</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"contact_us\">Contactez-nous</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"my_account\">Mon compte</a></li><li><a href=\"#\" class=\"footer-nav-link\" data-i18n=\"return_policy\">Politique de retour</a></li></ul></div></div>"
     }
 };
 
@@ -645,25 +693,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Mobile menu language handling
-    const mobileLangLinks = document.querySelectorAll('.mobile-menu-category-list .submenu-category-list a');
-    mobileLangLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            // Check if this is a language link
-            const text = e.target.textContent.trim();
-            let lang = null;
-            if (text === 'English') lang = 'en-US';
-            if (text.includes('Espa')) lang = 'es-ES';
-            if (text.includes('Fren') || text.includes('Fran')) lang = 'fr';
+    // Find the language accordion button first, then get its submenu
+    const languageAccordions = document.querySelectorAll('.menu-bottom .accordion-menu');
+    let languageSubmenu = null;
 
-            if (lang) {
-                e.preventDefault();
-                updateLanguage(lang);
-                // Close mobile menu
-                const mobileMenu = document.querySelector('[data-mobile-menu]');
-                const overlay = document.querySelector('[data-overlay]');
-                if (mobileMenu) mobileMenu.classList.remove('active');
-                if (overlay) overlay.classList.remove('active');
-            }
-        });
+    languageAccordions.forEach(accordion => {
+        const titleElement = accordion.querySelector('[data-i18n="language"]');
+        if (titleElement) {
+            // This is the language accordion, get its submenu
+            languageSubmenu = accordion.nextElementSibling;
+        }
     });
+
+    if (languageSubmenu) {
+        const mobileLangLinks = languageSubmenu.querySelectorAll('.submenu-category a');
+        mobileLangLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Check if this is a language link
+                const text = e.target.textContent.trim();
+                let lang = null;
+                if (text === 'English') lang = 'en-US';
+                if (text.includes('Espa')) lang = 'es-ES';
+                if (text.includes('Fren') || text.includes('Fran')) lang = 'fr';
+
+                if (lang) {
+                    updateLanguage(lang);
+                    // Close mobile menu
+                    const mobileMenu = document.querySelector('[data-mobile-menu]');
+                    const overlay = document.querySelector('[data-overlay]');
+                    if (mobileMenu) mobileMenu.classList.remove('active');
+                    if (overlay) overlay.classList.remove('active');
+                }
+            });
+        });
+    }
 });
