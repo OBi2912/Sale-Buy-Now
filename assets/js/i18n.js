@@ -714,8 +714,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const text = e.target.textContent.trim();
                 let lang = null;
                 if (text === 'English') lang = 'en-US';
-                if (text.includes('Espa')) lang = 'es-ES';
-                if (text.includes('Fren') || text.includes('Fran')) lang = 'fr';
+                if (text.includes('Espa') || text.includes('ñ')) lang = 'es-ES';
+                if (text.includes('Fren') || text.includes('Fran') || text.includes('ç')) lang = 'fr';
 
                 if (lang) {
                     updateLanguage(lang);
