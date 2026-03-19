@@ -111,6 +111,42 @@ body {
   background: hsla(0, 0%, 13%, 0.8) !important;
 }
 
+[data-theme="dark"] .header-logo img {
+  filter: brightness(0) invert(1);
+}
+
+[data-theme="dark"] .payment-img {
+  background: white;
+  padding: 5px;
+  border-radius: var(--border-radius-sm);
+  display: inline-block;
+}
+
+ion-icon {
+  color: inherit;
+}
+
+[data-theme="dark"] ion-icon {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .social-link,
+[data-theme="dark"] .header-social-container .social-link {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: var(--border-radius-sm);
+  padding: 5px;
+}
+
+[data-theme="dark"] .social-link:hover,
+[data-theme="dark"] .header-social-container .social-link:hover {
+  background: var(--salmon-pink) !important;
+}
+
+[data-theme="dark"] ion-icon[name^="logo-"] {
+  color: #ffffff !important;
+}
+
 .theme-btn,
 .theme-btn-mobile {
   color: var(--onyx);
