@@ -66,7 +66,25 @@
    */
 
   --transition-timing: 0.2s ease;
+  --transition-theme: 0.3s ease-in-out;
 
+}
+
+[data-theme="dark"] {
+  --white: hsl(0, 0%, 13%);
+  --cultured: hsl(0, 0%, 20%);
+  --eerie-black: hsl(0, 0%, 93%);
+  --onyx: hsl(0, 0%, 80%);
+  --davys-gray: hsl(0, 0%, 70%);
+  --sonic-silver: hsl(0, 0%, 60%);
+  --spanish-gray: hsl(0, 0%, 50%);
+  /* Brand colors adjusted for dark mode */
+  --salmon-pink: #7d88d6;
+  --bittersweet: #7d88d6;
+}
+
+body {
+  transition: background-color var(--transition-theme), color var(--transition-theme);
 }
 
 
@@ -599,6 +617,39 @@ footer .copyright a {
 
 .search-btn:hover {
   color: var(--salmon-pink);
+}
+
+.theme-btn {
+  background: var(--white);
+  color: var(--salmon-pink);
+  padding: 8px 15px;
+  border-radius: var(--border-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: var(--weight-600);
+  margin: 20px auto;
+  transition: var(--transition-theme);
+  border: 1px solid var(--cultured);
+  cursor: pointer;
+}
+
+.theme-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.theme-btn ion-icon {
+  font-size: 20px;
+}
+
+[data-theme="dark"] .moon-icon {
+  display: none !important;
+}
+
+[data-theme="dark"] .sun-icon {
+  display: block !important;
 }
 
 .mobile-bottom-navigation {

@@ -119,4 +119,36 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Theme Toggle Logic
+    const themeBtns = document.querySelectorAll('[data-theme-btn]');
+    const html = document.documentElement;
+    const moonIcons = document.querySelectorAll('.moon-icon');
+    const sunIcons = document.querySelectorAll('.sun-icon');
+
+    function updateThemeIcons(theme) {
+        if (theme === 'dark') {
+            moonIcons.forEach(icon => icon.style.display = 'none');
+            sunIcons.forEach(icon => icon.style.display = 'block');
+        } else {
+            moonIcons.forEach(icon => icon.style.display = 'block');
+            sunIcons.forEach(icon => icon.style.display = 'none');
+        }
+    }
+
+    // Check for saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', savedTheme);
+    updateThemeIcons(savedTheme);
+
+    themeBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcons(newTheme);
+        });
+    });
+
 });

@@ -717,9 +717,16 @@
       <div class="menu-top">
         <h2 class="menu-title" data-i18n="menu">Menu</h2>
 
-        <button class="menu-close-btn" data-mobile-menu-close-btn>
-          <ion-icon name="close-outline"></ion-icon>
-        </button>
+        <div style="display: flex; align-items: center; gap: 15px; margin-left: auto; margin-right: 15px;">
+          <button class="theme-btn-mobile" data-theme-btn style="font-size: 24px;">
+            <ion-icon name="moon-outline" class="moon-icon"></ion-icon>
+            <ion-icon name="sunny-outline" class="sun-icon" style="display: none;"></ion-icon>
+          </button>
+
+          <button class="menu-close-btn" data-mobile-menu-close-btn>
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+        </div>
       </div>
 
       <ul class="mobile-menu-category-list">
@@ -3748,6 +3755,11 @@
       <div class="container">
 
         <img src="./assets/images/payment.png" alt="payment method" class="payment-img">
+
+        <button class="theme-btn" data-theme-btn>
+          <ion-icon name="moon-outline" class="moon-icon"></ion-icon>
+          <ion-icon name="sunny-outline" class="sun-icon" style="display: none;"></ion-icon>
+        </button>
 
         <p class="copyright">
           Copyright 2027 &copy; <a href="#">Sale Buy Now</a> all rights by OBi reserved.
