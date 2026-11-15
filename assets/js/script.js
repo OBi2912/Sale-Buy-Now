@@ -310,7 +310,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const cards = [...document.querySelectorAll('.showcase')].map((card) => {
       const title = card.querySelector('.showcase-title')?.textContent.trim();
       const price = card.querySelector('.price')?.textContent.trim();
-      const oldPrice = card.querySelector('.price-box del')?.textContent.trim() || '';
+      const oldPriceElement = card.querySelector('.price-box del');
+      const oldPrice = oldPriceElement && !oldPriceElement.hidden
+        ? oldPriceElement.textContent.trim()
+        : '';
       const image = card.querySelector('.product-img, .showcase-img')?.getAttribute('src') || '';
       if (!title || !price) return null;
 
@@ -1069,7 +1072,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const title = titleElement.textContent.trim();
     const price = priceElement.textContent;
-    const oldPrice = showcase.querySelector('.price-box del')?.textContent.trim() || '';
+    const oldPriceElement = showcase.querySelector('.price-box del');
+    const oldPrice = oldPriceElement && !oldPriceElement.hidden
+      ? oldPriceElement.textContent.trim()
+      : '';
     const id = title.toLowerCase().replace(/\s+/g, '-'); // simple id generation
 
     return {
@@ -1441,20 +1447,68 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Christmas countdown
+  // Christmas campaign: annual window from November 15 to January 5
+  const christmasCampaign = window.ChristmasCampaign;
+  const christmasPromo = document.querySelector('[data-christmas-promo]');
+  const christmasHeroBadge = document.querySelector('.christmas-hero-badge');
+  const christmasCta = document.querySelector('.christmas-cta');
   const christmasCountdown = document.querySelector('[data-christmas-countdown]');
   const christmasCountdownValue = document.querySelector('[data-christmas-countdown-value]');
+  const christmasSalePrices = new Map();
+  let christmasCountdownTimer = null;
+  let christmasCampaignActive = null;
 
-  if (christmasCountdown && christmasCountdownValue) {
-    const endsAt = new Date(christmasCountdown.dataset.endsAt || '2027-01-06T23:59:59');
-    let countdownTimer = null;
+  // The HTML ships with the campaign prices applied; remember them before
+  // reverting anything so the promotion can be reactivated without a reload.
+  document.querySelectorAll('.price[data-christmas-base]').forEach((priceElement) => {
+    christmasSalePrices.set(priceElement, priceElement.textContent.trim());
+  });
+
+  function setChristmasPrice(priceElement, active) {
+    const base = Number.parseFloat(priceElement.dataset.christmasBase);
+    if (!Number.isFinite(base)) return;
+
+    const priceBox = priceElement.closest('.price-box');
+    const oldPriceElement = priceBox ? priceBox.querySelector('del') : null;
+
+    if (active) {
+      const salePrice = christmasSalePrices.get(priceElement);
+      if (salePrice) priceElement.textContent = salePrice;
+
+      if (oldPriceElement) {
+        oldPriceElement.textContent = formatPrice(base);
+        oldPriceElement.hidden = false;
+      }
+      return;
+    }
+
+    priceElement.textContent = formatPrice(base);
+    if (!oldPriceElement) return;
+
+    if (oldPriceElement.dataset.christmasAdded === 'true') {
+      oldPriceElement.hidden = true;
+      return;
+    }
+
+    const originalOldPrice = oldPriceElement.dataset.christmasOriginalDel;
+    if (originalOldPrice) {
+      oldPriceElement.textContent = originalOldPrice;
+    }
+    oldPriceElement.hidden = false;
+  }
+
+  function startChristmasCountdown(endDate) {
+    if (!christmasCountdown || !christmasCountdownValue || !endDate) return;
+    if (christmasCountdownTimer) clearInterval(christmasCountdownTimer);
 
     const renderChristmasCountdown = () => {
-      const remaining = endsAt.getTime() - Date.now();
+      const remaining = endDate.getTime() - Date.now();
 
       if (remaining <= 0) {
         christmasCountdownValue.textContent = getTranslation('christmas_ended', 'Offer ended');
-        if (countdownTimer) clearInterval(countdownTimer);
+        if (christmasCountdownTimer) clearInterval(christmasCountdownTimer);
+        christmasCountdownTimer = null;
+        refreshChristmasCampaign();
         return;
       }
 
@@ -1469,7 +1523,53 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     renderChristmasCountdown();
-    countdownTimer = setInterval(renderChristmasCountdown, 1000);
+    christmasCountdownTimer = setInterval(renderChristmasCountdown, 1000);
+  }
+
+  function refreshChristmasCampaign() {
+    if (!christmasCampaign) return;
+
+    const campaignWindow = christmasCampaign.getCampaignWindow();
+    const isActive = campaignWindow.active;
+
+    if (isActive === christmasCampaignActive) return;
+    christmasCampaignActive = isActive;
+
+    document.documentElement.setAttribute(
+      'data-christmas-campaign',
+      isActive ? 'on' : 'off'
+    );
+
+    [christmasPromo, christmasHeroBadge, christmasCta].forEach((element) => {
+      if (element) element.hidden = !isActive;
+    });
+
+    document.querySelectorAll('.price[data-christmas-base]').forEach((priceElement) => {
+      setChristmasPrice(priceElement, isActive);
+    });
+
+    // Keep saved carts and favorites aligned with the current season.
+    syncStoredPrices();
+
+    if (isActive) {
+      startChristmasCountdown(campaignWindow.end);
+      return;
+    }
+
+    if (christmasCountdownTimer) clearInterval(christmasCountdownTimer);
+    christmasCountdownTimer = null;
+  }
+
+  if (christmasCampaign) {
+    christmasCampaign.refresh = refreshChristmasCampaign;
+    refreshChristmasCampaign();
+
+    // If the page stays open across a season boundary, update it automatically.
+    setInterval(() => {
+      if (christmasCampaign.isActive() !== christmasCampaignActive) {
+        refreshChristmasCampaign();
+      }
+    }, 60000);
   }
 
   // Initial UI update from localStorage

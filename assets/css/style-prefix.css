@@ -5283,6 +5283,21 @@ footer {
   #CHRISTMAS CAMPAIGN
 \*-----------------------------------*/
 
+[data-christmas-campaign="off"] .christmas-promo,
+[data-christmas-campaign="off"] .christmas-hero-badge,
+[data-christmas-campaign="off"] .christmas-cta {
+  display: none !important;
+}
+
+/* Without the campaign card, the testimonial and services take the full row. */
+@media (min-width: 1024px) {
+  [data-christmas-campaign="off"] .testimonials-box .testimonial,
+  [data-christmas-campaign="off"] .testimonials-box .service {
+    width: 100%;
+    min-width: 100%;
+  }
+}
+
 .christmas-promo {
   background: linear-gradient(90deg, #14532d 0%, #7f1d1d 58%, #b3261e 100%);
   color: #ffffff;

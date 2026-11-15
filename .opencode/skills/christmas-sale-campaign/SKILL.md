@@ -1,6 +1,6 @@
 ---
 name: Campaña de Navidad
-description: Aplica o revierte la campaña navideña de Sale Buy Now. Recalcula de forma idempotente los precios de todos los productos (25% por defecto), conserva el precio original tachado, sincroniza carrito/favoritos/checkout y añade publicidad navideña (barra promocional, distintivo en el hero, CTA, contador y copys en inglés, español y francés). Úsala siempre que el usuario pida una rebaja de Navidad, precios navideños, descuento de temporada, campaña de Navidad, Christmas sale o publicidad navideña para esta tienda, aunque no mencione un archivo concreto.
+description: Aplica o revierte la campaña navideña de Sale Buy Now. Recalcula de forma idempotente los precios de todos los productos (25% por defecto), conserva el precio original tachado, sincroniza carrito/favoritos/checkout y añade publicidad navideña (barra promocional, distintivo en el hero, CTA, contador y copys en inglés, español y francés). Incluye un calendario anual que activa la promoción del 15 de noviembre al 5 de enero. Úsala siempre que el usuario pida una rebaja de Navidad, precios navideños, descuento de temporada, campaña de Navidad, Christmas sale o publicidad navideña para esta tienda, aunque no mencione un archivo concreto.
 ---
 
 # Campaña de Navidad
@@ -11,6 +11,7 @@ Esta skill aplica una campaña estacional completa a la tienda estática **Sale 
 - Muestra el precio original tachado y el precio de oferta.
 - Mantiene coherentes la vista rápida, el carrito, los favoritos y el checkout.
 - Añade publicidad navideña integrada en el diseño existente, sin otra modal ni popup intrusivo.
+- Activa y desactiva la campaña sola cada año del 15 de noviembre al 5 de enero.
 - Traduce todos los textos nuevos al inglés, español y francés.
 
 ## Valores por defecto
@@ -18,21 +19,41 @@ Esta skill aplica una campaña estacional completa a la tienda estática **Sale 
 | Parámetro | Valor |
 | --- | --- |
 | Descuento | `25%` |
-| Inicio de temporada | 15 de noviembre |
-| Fin de temporada | 6 de enero del año siguiente, 23:59:59 |
+| Inicio de temporada | 15 de noviembre a las 00:00:00 |
+| Fin de temporada | 5 de enero a las 23:59:59 |
 | Moneda | USD |
 | Idiomas | `en-US`, `es-ES`, `fr` |
 | Archivo de precios | `index.html` |
+| Calendario anual | `assets/js/christmas-campaign.js` |
 
 Si el usuario no indica un porcentaje, usa **25%** y dilo en el resumen final. Si indica otro, úsalo en los precios, en los textos y en la verificación. No cambies los cupones (`SAVE10`, `SAVE20`, `WELCOME15`), el umbral de envío gratis (`$55`) ni la tarifa de envío (`$4.99`).
+
+## Calendario anual
+
+La campaña es recurrente: **se activa sola cada 15 de noviembre y termina el 5 de enero a las 23:59:59** (hora local del visitante). No pongas años fijos en el HTML ni en `data-ends-at`.
+
+`assets/js/christmas-campaign.js` es la única fuente de verdad de las fechas:
+
+- `enabled: false` apaga la campaña sin borrar el código.
+- `startMonth` / `startDay` y `endMonth` / `endDay` definen la ventana anual.
+- El porcentaje de descuento vive en los precios (`data-christmas-base`), no en este archivo.
+
+`script.js` usa `ChristmasCampaign.getCampaignWindow()` para:
+
+1. Mostrar u ocultar la barra, el distintivo del hero y el CTA.
+2. Mantener los precios de oferta dentro de la ventana y devolverlos a `data-christmas-base` fuera de ella.
+3. Calcular el contador hasta el 5 de enero, sin fechas hardcodeadas.
+
+El script debe cargarse en el `<head>` de `index.html` para que la publicidad no parpadee fuera de temporada. Si la página queda abierta al cambiar la temporada, se refresca sola cada minuto.
 
 ## Archivos que intervienen
 
 | Archivo | Uso |
 | --- | --- |
 | `index.html` | Precios de producto, barra promocional, hero, CTA y modal de vista rápida |
+| `assets/js/christmas-campaign.js` | Calendario anual: 15 de noviembre a 5 de enero |
 | `assets/css/style-prefix.css` | Estilos de la campaña y responsive |
-| `assets/js/script.js` | Vista rápida, sincronización de precios guardados y contador |
+| `assets/js/script.js` | Vista rápida, sincronización de precios guardados, activación anual y contador |
 | `assets/js/i18n.js` | Copys en inglés, español y francés |
 | `checkout.html` | Solo para verificar que los totales reflejan el precio de oferta |
 | `assets/js/checkout.js` | No requiere cambios: lee el precio guardado en el carrito |
@@ -184,7 +205,7 @@ Lee `references/christmas-advertising.md` y aplica sus snippets. Resume el traba
 2. Distintivo navideño en el primer slide del hero, sin alterar las imágenes ni el carrusel.
 3. CTA navideño en `.cta-container` con precios “desde” calculados a partir del producto más barato después del descuento.
 4. Estilos en una sección `#CHRISTMAS CAMPAIGN` de `style-prefix.css`, con responsive en 768px y 480px.
-5. Contador en `script.js` que lee `data-ends-at` y termina con el texto `christmas_ended`.
+5. Contador en `script.js` que calcula el final con `ChristmasCampaign.getCampaignWindow()` y termina con el texto `christmas_ended`.
 6. Copys en `assets/js/i18n.js` para `en-US`, `es-ES` y `fr`.
 
 Pautas de diseño:
@@ -201,6 +222,7 @@ Pautas de diseño:
 Ejecuta:
 
 ```bash
+node --check assets/js/christmas-campaign.js
 node --check assets/js/script.js
 node --check assets/js/i18n.js
 node .opencode/skills/christmas-sale-campaign/scripts/apply_christmas_discount.mjs --check --percent 25
@@ -218,6 +240,8 @@ Después abre la tienda con un servidor local y comprueba:
 - La barra, el distintivo del hero y el CTA se ven bien en escritorio, tablet y móvil.
 - El cambio de idioma actualiza todos los textos nuevos en EN/ES/FR.
 - El contador avanza y, al llegar a la fecha final, muestra el mensaje de oferta finalizada.
+- `ChristmasCampaign.getCampaignWindow()` marca activo el 15 de noviembre y el 5 de enero, e inactivo el 14 de noviembre y el 6 de enero.
+- Con `enabled: false`, la publicidad se oculta y los precios vuelven a `data-christmas-base`.
 - No hay errores en la consola.
 - El modo oscuro mantiene el contraste.
 
@@ -231,7 +255,7 @@ Para deshacer solo los precios:
 node .opencode/skills/christmas-sale-campaign/scripts/apply_christmas_discount.mjs --revert
 ```
 
-Después elimina la barra promocional, el distintivo del hero, la clase `christmas-cta`, la sección CSS `#CHRISTMAS CAMPAIGN`, el bloque del contador en `script.js` y las claves `christmas_*` de los tres idiomas.
+Después elimina la barra promocional, el distintivo del hero, la clase `christmas-cta`, la sección CSS `#CHRISTMAS CAMPAIGN`, el bloque de campaña en `script.js`, el archivo `assets/js/christmas-campaign.js`, su `<script>` del `<head>` y las claves `christmas_*` de los tres idiomas.
 
 Si usas Git, revisa primero `git diff` y revierte solo los cambios de la campaña. No descartes cambios del usuario que ya estaban en el árbol de trabajo.
 

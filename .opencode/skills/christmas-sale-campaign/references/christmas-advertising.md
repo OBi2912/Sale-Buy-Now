@@ -5,6 +5,7 @@ Snippets y copys para aplicar la campaña. Úsalos junto con `SKILL.md`.
 ## Contenido
 
 - [Mapa de inserción](#mapa-de-inserción)
+- [Calendario anual](#0-calendario-anual)
 - [Barra promocional](#1-barra-promocional)
 - [Distintivo del hero](#2-distintivo-del-hero)
 - [CTA navideño](#3-cta-navideño)
@@ -17,12 +18,23 @@ Snippets y copys para aplicar la campaña. Úsalos junto con `SKILL.md`.
 
 | Pieza | Archivo | Punto de inserción |
 | --- | --- | --- |
+| Calendario anual | `assets/js/christmas-campaign.js` | Cargado en el `<head>` de `index.html` |
 | Barra promocional + contador | `index.html` | Justo antes de `<header>` |
 | Distintivo de Navidad | `index.html` | Primer `.slider-item .banner-content`, antes de `.banner-subtitle` |
 | CTA navideño | `index.html` | `.cta-container`, dentro de `#products` |
 | Estilos | `assets/css/style-prefix.css` | Nueva sección `#CHRISTMAS CAMPAIGN`, antes de los `@media` finales |
 | Contador | `assets/js/script.js` | Dentro del `DOMContentLoaded`, después de las utilidades de idioma |
 | Copys | `assets/js/i18n.js` | En los objetos `en-US`, `es-ES` y `fr` |
+
+## 0. Calendario anual
+
+La campaña se repite **del 15 de noviembre al 5 de enero a las 23:59:59**. La fuente de verdad es `assets/js/christmas-campaign.js`; cárgala en el `<head>` para que la web no muestre publicidad fuera de temporada ni parpadee al cargar.
+
+```html
+<script src="./assets/js/christmas-campaign.js"></script>
+```
+
+No uses años fijos en `data-ends-at`. `script.js` llama a `ChristmasCampaign.getCampaignWindow()` para mostrar/ocultar la publicidad, aplicar o revertir los precios y calcular el contador. Fuera de la ventana, el HTML vuelve a los precios de `data-christmas-base`.
 
 ## 1. Barra promocional
 
@@ -36,7 +48,7 @@ Insertar antes de `<header>`:
       <span data-i18n="christmas_promo">Christmas Sale · 25% off sitewide</span>
     </p>
 
-    <div class="christmas-countdown" data-christmas-countdown data-ends-at="2027-01-06T23:59:59">
+    <div class="christmas-countdown" data-christmas-countdown>
       <span class="christmas-countdown-label" data-i18n="christmas_ends">Ends in</span>
       <span class="christmas-countdown-value" data-christmas-countdown-value aria-live="off">--d --h --m --s</span>
     </div>
@@ -46,7 +58,7 @@ Insertar antes de `<header>`:
 </aside>
 ```
 
-Si el usuario da otra fecha de fin, cambia solo `data-ends-at` y el texto visible si lo hubiera. El contador debe apuntar a la misma fecha en los tres idiomas.
+Si el usuario da otra fecha de fin, cámbiala en `assets/js/christmas-campaign.js`. El contador se calcula solo y no necesita un año fijo en el HTML.
 
 ## 2. Distintivo del hero
 
@@ -248,20 +260,24 @@ No uses animaciones de nieve a pantalla completa. Si añades algún detalle deco
 Añadir en `assets/js/script.js` dentro del `DOMContentLoaded`, después de las funciones de idioma:
 
 ```js
-// Christmas countdown
+// Christmas campaign: annual window from November 15 to January 5
+const christmasCampaign = window.ChristmasCampaign;
 const christmasCountdown = document.querySelector('[data-christmas-countdown]');
 const christmasCountdownValue = document.querySelector('[data-christmas-countdown-value]');
+let countdownTimer = null;
 
-if (christmasCountdown && christmasCountdownValue) {
-  const endsAt = new Date(christmasCountdown.dataset.endsAt || '2027-01-06T23:59:59');
-  let countdownTimer = null;
+function startChristmasCountdown(endDate) {
+  if (!christmasCountdown || !christmasCountdownValue || !endDate) return;
+  if (countdownTimer) clearInterval(countdownTimer);
 
   const renderChristmasCountdown = () => {
-    const remaining = endsAt.getTime() - Date.now();
+    const remaining = endDate.getTime() - Date.now();
 
     if (remaining <= 0) {
       christmasCountdownValue.textContent = getTranslation('christmas_ended', 'Offer ended');
       if (countdownTimer) clearInterval(countdownTimer);
+      countdownTimer = null;
+      refreshChristmasCampaign();
       return;
     }
 
@@ -278,9 +294,12 @@ if (christmasCountdown && christmasCountdownValue) {
   renderChristmasCountdown();
   countdownTimer = setInterval(renderChristmasCountdown, 1000);
 }
+
+const campaignWindow = christmasCampaign?.getCampaignWindow();
+if (campaignWindow?.active) startChristmasCountdown(campaignWindow.end);
 ```
 
-No uses `aria-live` en el contador: cambia cada segundo y sería molesto para lectores de pantalla. El texto visible de la oferta ya comunica la urgencia.
+`refreshChristmasCampaign()` es la función que muestra u oculta la barra, el distintivo y el CTA, y aplica o revierte los precios. Puedes ver la implementación completa en `assets/js/script.js`. No uses `aria-live` en el contador: cambia cada segundo y sería molesto para lectores de pantalla.
 
 ## 6. Copys EN / ES / FR
 
