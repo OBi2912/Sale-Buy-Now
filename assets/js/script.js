@@ -69,6 +69,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // prevent the demo forms from reloading the page
+  const userForms = document.querySelectorAll('[data-user-modal] form');
+  userForms.forEach(form => {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+    });
+  });
+
   // cart modal variables
   const cartModal = document.querySelector('[data-cart-modal]');
   const cartModalCloseBtn = document.querySelector('[data-cart-modal-close]');
@@ -77,6 +85,9 @@ document.addEventListener('DOMContentLoaded', function () {
   // cart modal function
   const cartModalCloseFunc = function () {
     if (cartModal) cartModal.classList.add('closed');
+
+    const clearConfirm = document.querySelector('[data-cart-clear-confirm]');
+    if (clearConfirm) clearConfirm.classList.add('hidden');
   }
 
   // cart modal eventListener
@@ -269,10 +280,117 @@ document.addEventListener('DOMContentLoaded', function () {
   // cart data structure
   let cart = JSON.parse(localStorage.getItem('shopping-cart')) || [];
   const cartItemsContainer = document.querySelector('.cart-items');
+  const cartContentEl = document.querySelector('.cart-content');
+
+  // coupon and shipping configuration
+  const COUPONS = {
+    SAVE10: 10,
+    SAVE20: 20,
+    WELCOME15: 15
+  };
+  const FREE_SHIPPING_THRESHOLD = 55;
+  const SHIPPING_FEE = 4.99;
+  let cartCoupon = localStorage.getItem('shopping-cart-coupon') || null;
+  if (cartCoupon && !COUPONS[cartCoupon]) {
+    cartCoupon = null;
+    localStorage.removeItem('shopping-cart-coupon');
+  }
 
   // favorites data structure
   let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
   const favoritesItemsContainer = document.querySelector('.favorites-items');
+  const favoritesContentEl = document.querySelector('.favorites-content');
+
+  // keep stored cart and favorites prices in sync with the current product prices
+  function syncStoredPrices() {
+    const normalizeImage = (src) => String(src || '')
+      .replace(/^https?:\/\/[^/]+/, '')
+      .replace(/^\.?\//, '');
+
+    const cards = [...document.querySelectorAll('.showcase')].map((card) => {
+      const title = card.querySelector('.showcase-title')?.textContent.trim();
+      const price = card.querySelector('.price')?.textContent.trim();
+      const oldPrice = card.querySelector('.price-box del')?.textContent.trim() || '';
+      const image = card.querySelector('.product-img, .showcase-img')?.getAttribute('src') || '';
+      if (!title || !price) return null;
+
+      return {
+        id: title.toLowerCase().replace(/\s+/g, '-'),
+        price: price,
+        oldPrice: oldPrice,
+        image: normalizeImage(image)
+      };
+    }).filter(Boolean);
+
+    const findCurrentPrice = (item) => {
+      let matches = cards.filter((card) => card.id === item.id);
+      if (matches.length === 0) return null;
+      if (matches.length === 1) return matches[0].price;
+
+      const itemImage = normalizeImage(item.image);
+      if (itemImage) {
+        const imageMatches = matches.filter((card) => card.image === itemImage);
+        if (imageMatches.length) matches = imageMatches;
+      }
+
+      if (item.oldPrice) {
+        const oldPriceMatches = matches.filter((card) => card.oldPrice === item.oldPrice);
+        if (oldPriceMatches.length) matches = oldPriceMatches;
+      }
+
+      const prices = [...new Set(matches.map((card) => card.price))];
+      return prices.length === 1 ? prices[0] : null;
+    };
+
+    const syncList = (list) => list.map((item) => {
+      const currentPrice = findCurrentPrice(item);
+      return currentPrice ? { ...item, price: currentPrice } : item;
+    });
+
+    cart = syncList(cart);
+    favorites = syncList(favorites);
+    localStorage.setItem('shopping-cart', JSON.stringify(cart));
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }
+
+  // cart helpers
+  function getTranslation(key, fallback) {
+    const lang = localStorage.getItem('language') || 'en-US';
+    if (typeof translations !== 'undefined' && translations[lang] && translations[lang][key]) {
+      return translations[lang][key];
+    }
+    return fallback;
+  }
+
+  function formatPrice(value) {
+    return '$' + value.toFixed(2);
+  }
+
+  function parseItemPrice(price) {
+    const priceString = String(price).replace(/[^0-9.]/g, '');
+    const parsed = parseFloat(priceString);
+    return isNaN(parsed) ? 0 : parsed;
+  }
+
+  function getCartTotals() {
+    const subtotal = cart.reduce((sum, item) => sum + parseItemPrice(item.price) * item.quantity, 0);
+    const discountPercent = cartCoupon && COUPONS[cartCoupon] ? COUPONS[cartCoupon] : 0;
+    const discount = subtotal * discountPercent / 100;
+    const shipping = subtotal > 0 && subtotal < FREE_SHIPPING_THRESHOLD ? SHIPPING_FEE : 0;
+
+    return {
+      subtotal: subtotal,
+      discount: discount,
+      discountPercent: discountPercent,
+      shipping: shipping,
+      total: Math.max(0, subtotal - discount + shipping)
+    };
+  }
+
+  function applyCartTranslations() {
+    const lang = localStorage.getItem('language') || 'en-US';
+    if (typeof updateLanguage === 'function') updateLanguage(lang);
+  }
 
   // cart functions
   function addToCart(product) {
@@ -303,7 +421,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const item = cart.find(item => item.id === productId);
     if (item) {
       item.quantity = newQuantity;
-      item.quantity = newQuantity;
       localStorage.setItem('shopping-cart', JSON.stringify(cart));
       updateCartCount();
       renderCart();
@@ -327,54 +444,142 @@ document.addEventListener('DOMContentLoaded', function () {
   function renderCart() {
     if (!cartItemsContainer) return;
 
+    const totals = getCartTotals();
+    const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    const countEl = document.querySelector('[data-cart-count]');
+    const subtotalEl = document.querySelector('[data-cart-subtotal]');
+    const shippingEl = document.querySelector('[data-cart-shipping]');
+    const discountRow = document.querySelector('[data-cart-discount-row]');
+    const discountEl = document.querySelector('[data-cart-discount]');
+    const totalEl = document.querySelector('[data-cart-total]');
+    const couponInput = document.querySelector('[data-cart-coupon-input]');
+    const couponMessage = document.querySelector('[data-cart-coupon-message]');
+    const shippingText = document.querySelector('[data-cart-shipping-text]');
+    const shippingProgress = document.querySelector('[data-cart-shipping-progress]');
+    const shippingBox = document.querySelector('[data-cart-shipping-box]');
+
+    if (countEl) countEl.textContent = itemCount;
+    if (cartContentEl) cartContentEl.classList.toggle('is-empty', cart.length === 0);
+
     if (cart.length === 0) {
+      if (cartCoupon) {
+        cartCoupon = null;
+        localStorage.removeItem('shopping-cart-coupon');
+      }
+
       cartItemsContainer.innerHTML = `
         <div class="cart-empty">
           <ion-icon name="bag-handle-outline"></ion-icon>
           <h3 data-i18n="cart_empty">Your cart is empty</h3>
-          <p data-i18n="add_products_start">Add some products to get started!</p>
+          <p data-i18n="cart_empty_desc">Looks like you haven't added anything yet.</p>
+          <button type="button" class="cart-empty-btn" data-cart-continue>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+            <span data-i18n="continue_shopping">Continue shopping</span>
+          </button>
         </div>
       `;
-      const lang = localStorage.getItem('language') || 'en-US';
-      if (typeof updateLanguage === 'function') updateLanguage(lang);
+
+      if (subtotalEl) subtotalEl.textContent = formatPrice(0);
+      if (shippingEl) {
+        shippingEl.textContent = '\u2014';
+        shippingEl.classList.remove('is-free');
+      }
+      if (discountRow) discountRow.classList.add('hidden');
+      if (totalEl) totalEl.textContent = formatPrice(0);
+      if (couponInput) couponInput.value = '';
+      if (couponMessage) {
+        couponMessage.textContent = '';
+        couponMessage.className = 'cart-coupon-message';
+      }
+
+      applyCartTranslations();
       return;
     }
 
     let cartHTML = '';
-    let total = 0;
 
     cart.forEach(item => {
-      // Robust price parsing
-      const priceString = item.price.replace(/[^0-9.]/g, '');
-      const itemPrice = parseFloat(priceString);
-      const itemTotal = (isNaN(itemPrice) ? 0 : itemPrice) * item.quantity;
-      total += itemTotal;
+      const unitPrice = parseItemPrice(item.price);
+      const itemTotal = unitPrice * item.quantity;
 
       cartHTML += `
         <div class="cart-item" data-id="${item.id}">
           <img src="${item.image}" alt="${item.title}" class="cart-item-img">
           <div class="cart-item-details">
             <h4 class="cart-item-title">${item.title}</h4>
-            <p class="cart-item-price">${item.price}</p>
+            <p class="cart-item-price">
+              ${formatPrice(itemTotal)}
+              ${item.quantity > 1 ? `<span class="cart-item-unit-price">(${formatPrice(unitPrice)} ${getTranslation('each', 'each')})</span>` : ''}
+            </p>
             <div class="cart-item-quantity">
-              <button class="quantity-btn minus" data-id="${item.id}">-</button>
+              <button type="button" class="quantity-btn minus" data-id="${item.id}" aria-label="Decrease quantity">-</button>
               <span class="quantity">${item.quantity}</span>
-              <button class="quantity-btn plus" data-id="${item.id}">+</button>
+              <button type="button" class="quantity-btn plus" data-id="${item.id}" aria-label="Increase quantity">+</button>
             </div>
           </div>
-          <button class="cart-item-remove" data-id="${item.id}"><ion-icon name="trash-outline"></ion-icon></button>
+          <button type="button" class="cart-item-remove" data-id="${item.id}" aria-label="${getTranslation('remove', 'Remove')}">
+            <ion-icon name="trash-outline"></ion-icon>
+          </button>
         </div>
       `;
     });
 
-    const lang = localStorage.getItem('language') || 'en-US';
-    const totalText = (typeof translations !== 'undefined' && translations[lang]) ? translations[lang]['total'] : 'Total';
-    cartHTML += `<div class="cart-total"><strong>${totalText}: $${total.toFixed(2)}</strong></div>`;
-
-    const checkoutText = (typeof translations !== 'undefined' && translations[lang] && translations[lang]['checkout']) ? translations[lang]['checkout'] : 'Checkout';
-    cartHTML += `<button class="btn-newsletter checkout-btn" data-checkout-btn style="width: 100%; margin-top: 15px;">${checkoutText}</button>`;
-
     cartItemsContainer.innerHTML = cartHTML;
+
+    if (subtotalEl) subtotalEl.textContent = formatPrice(totals.subtotal);
+
+    if (shippingEl) {
+      if (totals.shipping === 0) {
+        shippingEl.textContent = getTranslation('free', 'Free');
+        shippingEl.classList.add('is-free');
+      } else {
+        shippingEl.textContent = formatPrice(totals.shipping);
+        shippingEl.classList.remove('is-free');
+      }
+    }
+
+    if (discountRow && discountEl) {
+      if (totals.discount > 0) {
+        discountRow.classList.remove('hidden');
+        discountEl.textContent = '-' + formatPrice(totals.discount);
+      } else {
+        discountRow.classList.add('hidden');
+      }
+    }
+
+    if (totalEl) totalEl.textContent = formatPrice(totals.total);
+    if (couponInput && cartCoupon) couponInput.value = cartCoupon;
+
+    if (couponMessage) {
+      couponMessage.className = 'cart-coupon-message';
+
+      if (cartCoupon) {
+        couponMessage.classList.add('success');
+        couponMessage.innerHTML = `${getTranslation('coupon_applied', 'Coupon applied')} (${cartCoupon} -${totals.discountPercent}%).
+          <button type="button" class="cart-coupon-remove" data-cart-coupon-remove>${getTranslation('remove', 'Remove')}</button>`;
+      } else {
+        couponMessage.textContent = '';
+      }
+    }
+
+    // free shipping progress
+    if (shippingBox && shippingText && shippingProgress) {
+      shippingBox.classList.remove('hidden');
+
+      if (totals.subtotal >= FREE_SHIPPING_THRESHOLD) {
+        shippingText.classList.add('is-complete');
+        shippingText.innerHTML = `<ion-icon name="checkmark-circle-outline"></ion-icon> ${getTranslation('free_shipping_unlocked', 'You have unlocked free shipping!')}`;
+        shippingProgress.style.width = '100%';
+      } else {
+        const remaining = FREE_SHIPPING_THRESHOLD - totals.subtotal;
+        const progress = Math.min(100, (totals.subtotal / FREE_SHIPPING_THRESHOLD) * 100);
+        shippingText.classList.remove('is-complete');
+        shippingText.innerHTML = getTranslation('free_shipping_progress', 'Add {amount} more for free shipping')
+          .replace('{amount}', `<strong>${formatPrice(remaining)}</strong>`);
+        shippingProgress.style.width = progress + '%';
+      }
+    }
 
     // add event listeners for quantity buttons and remove buttons
     document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
@@ -404,12 +609,137 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
-    const checkoutBtn = cartItemsContainer.querySelector('[data-checkout-btn]');
-    if (checkoutBtn) {
-      checkoutBtn.addEventListener('click', function () {
-        window.location.href = 'checkout.html';
-      });
+    applyCartTranslations();
+  }
+
+  // cart modal options
+  const cartClearBtn = document.querySelector('[data-cart-clear]');
+  const cartClearConfirm = document.querySelector('[data-cart-clear-confirm]');
+  const cartClearCancelBtn = document.querySelector('[data-cart-clear-cancel]');
+  const cartClearAcceptBtn = document.querySelector('[data-cart-clear-accept]');
+  const cartCheckoutBtn = document.querySelector('.cart-summary [data-checkout-btn]');
+  const cartCouponApplyBtn = document.querySelector('[data-cart-coupon-apply]');
+  const cartCouponInputEl = document.querySelector('[data-cart-coupon-input]');
+
+  function closeCartClearConfirm() {
+    if (cartClearConfirm) cartClearConfirm.classList.add('hidden');
+  }
+
+  if (cartClearBtn) {
+    cartClearBtn.addEventListener('click', function () {
+      if (cart.length === 0 || !cartClearConfirm) return;
+
+      cartClearConfirm.classList.remove('hidden');
+      if (cartClearCancelBtn) cartClearCancelBtn.focus();
+    });
+  }
+
+  if (cartClearCancelBtn) {
+    cartClearCancelBtn.addEventListener('click', closeCartClearConfirm);
+  }
+
+  if (cartClearAcceptBtn) {
+    cartClearAcceptBtn.addEventListener('click', function () {
+      closeCartClearConfirm();
+
+      cart = [];
+      cartCoupon = null;
+      localStorage.removeItem('shopping-cart');
+      localStorage.removeItem('shopping-cart-coupon');
+      updateCartCount();
+      renderCart();
+    });
+  }
+
+  if (cartClearConfirm) {
+    cartClearConfirm.addEventListener('click', function (event) {
+      if (event.target === cartClearConfirm) {
+        closeCartClearConfirm();
+      }
+    });
+  }
+
+  // keep the cart modal open when Escape closes the confirmation
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && cartClearConfirm && !cartClearConfirm.classList.contains('hidden')) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      closeCartClearConfirm();
     }
+  }, true);
+
+  if (cartCheckoutBtn) {
+    cartCheckoutBtn.addEventListener('click', function () {
+      window.location.href = 'checkout.html';
+    });
+  }
+
+  function applyCouponCode() {
+    if (!cartCouponInputEl) return;
+
+    const code = cartCouponInputEl.value.trim().toUpperCase();
+    const couponMessage = document.querySelector('[data-cart-coupon-message]');
+
+    if (!code) {
+      cartCoupon = null;
+      localStorage.removeItem('shopping-cart-coupon');
+      renderCart();
+
+      if (couponMessage) {
+        couponMessage.textContent = getTranslation('coupon_hint', 'Try SAVE10 or SAVE20.');
+        couponMessage.className = 'cart-coupon-message error';
+      }
+      return;
+    }
+
+    if (COUPONS[code]) {
+      cartCoupon = code;
+      localStorage.setItem('shopping-cart-coupon', code);
+      renderCart();
+    } else {
+      cartCoupon = null;
+      localStorage.removeItem('shopping-cart-coupon');
+      renderCart();
+
+      if (couponMessage) {
+        couponMessage.textContent = `${getTranslation('coupon_invalid', 'Invalid coupon code.')} ${getTranslation('coupon_hint', 'Try SAVE10 or SAVE20.')}`;
+        couponMessage.className = 'cart-coupon-message error';
+      }
+
+      cartCouponInputEl.value = code;
+    }
+  }
+
+  if (cartCouponApplyBtn) {
+    cartCouponApplyBtn.addEventListener('click', applyCouponCode);
+  }
+
+  if (cartCouponInputEl) {
+    cartCouponInputEl.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        applyCouponCode();
+      }
+    });
+  }
+
+  if (cartContentEl) {
+    cartContentEl.addEventListener('click', function (event) {
+      const continueBtn = event.target.closest('[data-cart-continue]');
+      if (continueBtn) {
+        event.preventDefault();
+        cartModalCloseFunc();
+        return;
+      }
+
+      const removeCouponBtn = event.target.closest('[data-cart-coupon-remove]');
+      if (removeCouponBtn) {
+        event.preventDefault();
+        cartCoupon = null;
+        localStorage.removeItem('shopping-cart-coupon');
+        renderCart();
+      }
+    });
   }
 
   // favorites functions
@@ -445,9 +775,29 @@ document.addEventListener('DOMContentLoaded', function () {
   function renderFavorites() {
     if (!favoritesItemsContainer) return;
 
+    const lang = localStorage.getItem('language') || 'en-US';
+    const subtitleEl = document.querySelector('[data-favorites-subtitle]');
+
+    if (subtitleEl) {
+      const label = favorites.length === 1
+        ? getTranslation('saved_item', 'saved item')
+        : getTranslation('saved_items', 'saved items');
+      subtitleEl.textContent = `${favorites.length} ${label}`;
+    }
+
     if (favorites.length === 0) {
-      favoritesItemsContainer.innerHTML = '<div class="favorites-empty"><p data-i18n="favorites_empty">No favorites yet.</p></div>';
-      const lang = localStorage.getItem('language') || 'en-US';
+      favoritesItemsContainer.innerHTML = `
+        <div class="favorites-empty">
+          <ion-icon name="heart-outline"></ion-icon>
+          <h3 data-i18n="favorites_empty">No favorites yet.</h3>
+          <p data-i18n="favorites_empty_desc">Tap the heart on any product to save it here.</p>
+          <button type="button" class="favorites-empty-btn" data-favorites-continue>
+            <ion-icon name="grid-outline"></ion-icon>
+            <span data-i18n="explore_products">Explore products</span>
+          </button>
+        </div>
+      `;
+
       if (typeof updateLanguage === 'function') updateLanguage(lang);
       return;
     }
@@ -457,17 +807,41 @@ document.addEventListener('DOMContentLoaded', function () {
     favorites.forEach(item => {
       favoritesHTML += `
         <div class="favorites-item" data-id="${item.id}">
-          <img src="${item.image}" alt="${item.title}" class="favorites-item-img">
+          <div class="favorites-item-media">
+            <img src="${item.image}" alt="${item.title}" class="favorites-item-img">
+          </div>
           <div class="favorites-item-details">
             <h4 class="favorites-item-title">${item.title}</h4>
             <p class="favorites-item-price">${item.price}</p>
+            <div class="favorites-item-actions">
+              <button type="button" class="favorites-add-cart" data-id="${item.id}">
+                <ion-icon name="bag-add-outline"></ion-icon>
+                <span data-i18n="add_to_cart">Add to Cart</span>
+              </button>
+              <button type="button" class="favorites-item-heart" data-id="${item.id}" aria-label="${getTranslation('remove', 'Remove')}">
+                <ion-icon name="heart"></ion-icon>
+              </button>
+            </div>
           </div>
-          <button class="favorites-item-heart" data-id="${item.id}"><ion-icon name="heart"></ion-icon></button>
         </div>
       `;
     });
 
     favoritesItemsContainer.innerHTML = favoritesHTML;
+
+    if (typeof updateLanguage === 'function') updateLanguage(lang);
+
+    // add item to cart from favorites
+    document.querySelectorAll('.favorites-add-cart').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const id = this.getAttribute('data-id');
+        const item = favorites.find(favorite => favorite.id === id);
+        if (item) {
+          favoritesModalCloseFunc();
+          addToCart(item);
+        }
+      });
+    });
 
     // add event listeners for heart buttons
     document.querySelectorAll('.favorites-item-heart').forEach(btn => {
@@ -477,6 +851,15 @@ document.addEventListener('DOMContentLoaded', function () {
         // also update the heart icon on the product
         updateProductHeartIcon(id, false);
       });
+    });
+  }
+
+  if (favoritesContentEl) {
+    favoritesContentEl.addEventListener('click', function (event) {
+      if (event.target.closest('[data-favorites-continue]')) {
+        event.preventDefault();
+        favoritesModalCloseFunc();
+      }
     });
   }
 
@@ -518,6 +901,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     if (modalTitle) modalTitle.textContent = product.title;
     if (modalPrice) modalPrice.textContent = product.price;
+    if (modalDel) {
+      modalDel.textContent = product.oldPrice || '';
+      modalDel.hidden = !product.oldPrice;
+    }
 
     // Update heart icon state
     const heartBtn = productModal.querySelector('[data-product-modal-favorite] ion-icon');
@@ -680,14 +1067,16 @@ document.addEventListener('DOMContentLoaded', function () {
       return null;
     }
 
-    const title = titleElement.textContent;
+    const title = titleElement.textContent.trim();
     const price = priceElement.textContent;
+    const oldPrice = showcase.querySelector('.price-box del')?.textContent.trim() || '';
     const id = title.toLowerCase().replace(/\s+/g, '-'); // simple id generation
 
     return {
       id: id,
       title: title,
       price: price,
+      oldPrice: oldPrice,
       image: img.src,
       alt: img.alt
     };
@@ -1052,7 +1441,39 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // Christmas countdown
+  const christmasCountdown = document.querySelector('[data-christmas-countdown]');
+  const christmasCountdownValue = document.querySelector('[data-christmas-countdown-value]');
+
+  if (christmasCountdown && christmasCountdownValue) {
+    const endsAt = new Date(christmasCountdown.dataset.endsAt || '2027-01-06T23:59:59');
+    let countdownTimer = null;
+
+    const renderChristmasCountdown = () => {
+      const remaining = endsAt.getTime() - Date.now();
+
+      if (remaining <= 0) {
+        christmasCountdownValue.textContent = getTranslation('christmas_ended', 'Offer ended');
+        if (countdownTimer) clearInterval(countdownTimer);
+        return;
+      }
+
+      const days = Math.floor(remaining / 86400000);
+      const hours = Math.floor(remaining / 3600000) % 24;
+      const minutes = Math.floor(remaining / 60000) % 60;
+      const seconds = Math.floor(remaining / 1000) % 60;
+      const pad = (value) => String(value).padStart(2, '0');
+
+      christmasCountdownValue.textContent =
+        `${days}d ${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+    };
+
+    renderChristmasCountdown();
+    countdownTimer = setInterval(renderChristmasCountdown, 1000);
+  }
+
   // Initial UI update from localStorage
+  syncStoredPrices();
   updateCartCount();
   renderCart();
   updateFavoritesCount();

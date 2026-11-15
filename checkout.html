@@ -103,6 +103,32 @@
             font-weight: var(--weight-600);
         }
 
+        .order-summary-breakdown {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid var(--cultured);
+        }
+
+        .order-summary-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 4px 0;
+            font-size: var(--fs-7);
+            color: var(--sonic-silver);
+        }
+
+        .order-summary-line span:last-child {
+            color: var(--onyx);
+            font-weight: var(--weight-500);
+        }
+
+        .order-summary-line.is-free span:last-child,
+        #order-discount-price {
+            color: var(--ocean-green);
+            font-weight: var(--weight-600);
+        }
+
         .order-total {
             display: flex;
             justify-content: space-between;
@@ -230,6 +256,21 @@
 
                         <div id="order-summary-items">
                             <!-- Items will be injected here -->
+                        </div>
+
+                        <div class="order-summary-breakdown">
+                            <div class="order-summary-line">
+                                <span data-i18n="subtotal">Subtotal</span>
+                                <span id="order-subtotal-price">$0.00</span>
+                            </div>
+                            <div class="order-summary-line">
+                                <span data-i18n="shipping">Shipping</span>
+                                <span id="order-shipping-price">&mdash;</span>
+                            </div>
+                            <div class="order-summary-line hidden" id="order-discount-line">
+                                <span data-i18n="discount">Discount</span>
+                                <span id="order-discount-price">-$0.00</span>
+                            </div>
                         </div>
 
                         <div class="order-total">

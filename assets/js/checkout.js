@@ -6,7 +6,25 @@ document.addEventListener('DOMContentLoaded', function () {
     let cart = JSON.parse(localStorage.getItem('shopping-cart')) || [];
     const orderSummaryContainer = document.getElementById('order-summary-items');
     const orderTotalPriceElement = document.getElementById('order-total-price');
+    const orderSubtotalPriceElement = document.getElementById('order-subtotal-price');
+    const orderShippingPriceElement = document.getElementById('order-shipping-price');
+    const orderDiscountLine = document.getElementById('order-discount-line');
+    const orderDiscountPriceElement = document.getElementById('order-discount-price');
     const checkoutForm = document.getElementById('checkout-form');
+
+    // Coupon and shipping configuration (must match script.js)
+    const COUPONS = {
+        SAVE10: 10,
+        SAVE20: 20,
+        WELCOME15: 15
+    };
+    const FREE_SHIPPING_THRESHOLD = 55;
+    const SHIPPING_FEE = 4.99;
+    const couponCode = localStorage.getItem('shopping-cart-coupon') || null;
+
+    function formatPrice(value) {
+        return '$' + value.toFixed(2);
+    }
 
     // Render order summary
     function renderOrderSummary() {
@@ -14,21 +32,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (cart.length === 0) {
             orderSummaryContainer.innerHTML = '<p>Your cart is empty.</p>';
-            if (orderTotalPriceElement) orderTotalPriceElement.textContent = '$0.00';
+            if (orderSubtotalPriceElement) orderSubtotalPriceElement.textContent = formatPrice(0);
+            if (orderShippingPriceElement) orderShippingPriceElement.textContent = '\u2014';
+            if (orderDiscountLine) orderDiscountLine.classList.add('hidden');
+            if (orderTotalPriceElement) orderTotalPriceElement.textContent = formatPrice(0);
             return;
         }
 
         let cartHTML = '';
-        let total = 0;
+        let subtotal = 0;
 
         const lang = localStorage.getItem('language') || 'en-US';
         const removeText = (typeof translations !== 'undefined' && translations[lang]) ? translations[lang]['remove_product'] : 'Remove Product';
 
         cart.forEach(item => {
-            const priceString = item.price.replace(/[^0-9.]/g, '');
+            const priceString = String(item.price).replace(/[^0-9.]/g, '');
             const itemPrice = parseFloat(priceString);
             const itemTotal = (isNaN(itemPrice) ? 0 : itemPrice) * item.quantity;
-            total += itemTotal;
+            subtotal += itemTotal;
 
             cartHTML += `
         <div class="order-summary-item">
@@ -46,8 +67,39 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         orderSummaryContainer.innerHTML = cartHTML;
+
+        const discountPercent = couponCode && COUPONS[couponCode] ? COUPONS[couponCode] : 0;
+        const discount = subtotal * discountPercent / 100;
+        const shipping = subtotal > 0 && subtotal < FREE_SHIPPING_THRESHOLD ? SHIPPING_FEE : 0;
+        const total = Math.max(0, subtotal - discount + shipping);
+
+        if (orderSubtotalPriceElement) {
+            orderSubtotalPriceElement.textContent = formatPrice(subtotal);
+        }
+
+        if (orderShippingPriceElement) {
+            if (shipping === 0) {
+                const freeText = (typeof translations !== 'undefined' && translations[lang] && translations[lang]['free']) ?
+                    translations[lang]['free'] : 'Free';
+                orderShippingPriceElement.textContent = freeText;
+                orderShippingPriceElement.parentElement.classList.add('is-free');
+            } else {
+                orderShippingPriceElement.textContent = formatPrice(shipping);
+                orderShippingPriceElement.parentElement.classList.remove('is-free');
+            }
+        }
+
+        if (orderDiscountLine && orderDiscountPriceElement) {
+            if (discount > 0) {
+                orderDiscountLine.classList.remove('hidden');
+                orderDiscountPriceElement.textContent = '-' + formatPrice(discount);
+            } else {
+                orderDiscountLine.classList.add('hidden');
+            }
+        }
+
         if (orderTotalPriceElement) {
-            orderTotalPriceElement.textContent = '$' + total.toFixed(2);
+            orderTotalPriceElement.textContent = formatPrice(total);
         }
 
         // Add event listeners for remove buttons
@@ -112,6 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Clear cart
                 localStorage.removeItem('shopping-cart');
+                localStorage.removeItem('shopping-cart-coupon');
 
                 // Redirect to home page
                 window.location.href = 'index.html?from=checkout';

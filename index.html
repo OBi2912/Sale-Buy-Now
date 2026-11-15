@@ -84,7 +84,7 @@
 
     <div class="modal-close-overlay" data-user-modal-overlay></div>
 
-    <div class="modal-content">
+    <div class="modal-content user-modal-content">
 
       <button class="modal-close-btn" data-user-modal-close>
         <ion-icon name="close-outline"></ion-icon>
@@ -92,50 +92,120 @@
 
       <div class="user-content">
 
-        <div class="form-container login-form" id="login-form">
-          <h3 data-i18n="login">Login</h3>
-          <form action="#">
-            <div class="form-group">
-              <label class="form-label" data-i18n="email_label">Email</label>
-              <input type="email" class="form-input" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label" data-i18n="password_label">Password</label>
-              <input type="password" class="form-input" required>
-            </div>
-            <button type="submit" class="btn-newsletter" data-i18n="sign_in" style="width: 100%; margin-top: 15px;">Sign
-              In</button>
-            <p style="margin-top: 10px; font-size: var(--fs-7); text-align: center;">
-              <span data-i18n="no_account">Don't have an account?</span>
-              <a href="#" id="show-register" style="color: var(--salmon-pink); font-weight: var(--weight-600);"
-                data-i18n="register">Register</a>
-            </p>
-          </form>
-        </div>
+        <aside class="user-aside">
+          <span class="user-aside-badge">
+            <ion-icon name="sparkles-outline"></ion-icon>
+            <span data-i18n="account_badge">Member area</span>
+          </span>
 
-        <div class="form-container register-form hidden" id="register-form">
-          <h3 data-i18n="register">Register</h3>
-          <form action="#">
-            <div class="form-group">
-              <label class="form-label" data-i18n="full_name">Full Name</label>
-              <input type="text" class="form-input" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label" data-i18n="email_label">Email</label>
-              <input type="email" class="form-input" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label" data-i18n="password_label">Password</label>
-              <input type="password" class="form-input" required>
-            </div>
-            <button type="submit" class="btn-newsletter" data-i18n="sign_up" style="width: 100%; margin-top: 15px;">Sign
-              Up</button>
-            <p style="margin-top: 10px; font-size: var(--fs-7); text-align: center;">
-              <span data-i18n="have_account">Already have an account?</span>
-              <a href="#" id="show-login" style="color: var(--salmon-pink); font-weight: var(--weight-600);"
-                data-i18n="login">Login</a>
+          <h3 data-i18n="account_welcome">Welcome to Sale Buy Now</h3>
+
+          <p data-i18n="account_welcome_desc">
+            Sign in to track your orders, save your favorite products and access exclusive offers.
+          </p>
+
+          <ul class="user-benefits">
+            <li>
+              <ion-icon name="cube-outline"></ion-icon>
+              <span data-i18n="account_benefit_orders">Track your orders</span>
+            </li>
+            <li>
+              <ion-icon name="heart-outline"></ion-icon>
+              <span data-i18n="account_benefit_favorites">Save your favorite products</span>
+            </li>
+            <li>
+              <ion-icon name="pricetags-outline"></ion-icon>
+              <span data-i18n="account_benefit_offers">Access exclusive offers</span>
+            </li>
+          </ul>
+        </aside>
+
+        <div class="user-forms">
+
+          <div class="form-container login-form" id="login-form">
+            <h3 data-i18n="login_title">Welcome back</h3>
+
+            <p class="form-subtitle" data-i18n="login_subtitle">
+              Enter your email and password to continue.
             </p>
-          </form>
+
+            <form action="#">
+              <div class="form-group">
+                <label class="form-label" data-i18n="email_label">Email</label>
+                <div class="input-with-icon">
+                  <ion-icon name="mail-outline"></ion-icon>
+                  <input type="email" class="form-input" placeholder="you@example.com" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" data-i18n="password_label">Password</label>
+                <div class="input-with-icon">
+                  <ion-icon name="lock-closed-outline"></ion-icon>
+                  <input type="password" class="form-input" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                    required>
+                </div>
+              </div>
+
+              <div class="form-options">
+                <label class="remember-check">
+                  <input type="checkbox">
+                  <span data-i18n="remember_me">Remember me</span>
+                </label>
+                <a href="#" class="forgot-link" data-i18n="forgot_password">Forgot password?</a>
+              </div>
+
+              <button type="submit" class="btn-newsletter" data-i18n="sign_in">Sign In</button>
+
+              <p class="form-switch">
+                <span data-i18n="no_account">Don't have an account?</span>
+                <a href="#" id="show-register" data-i18n="register">Register</a>
+              </p>
+            </form>
+          </div>
+
+          <div class="form-container register-form hidden" id="register-form">
+            <h3 data-i18n="register_title">Create your account</h3>
+
+            <p class="form-subtitle" data-i18n="register_subtitle">
+              Join us in a few seconds and start shopping.
+            </p>
+
+            <form action="#">
+              <div class="form-group">
+                <label class="form-label" data-i18n="full_name">Full Name</label>
+                <div class="input-with-icon">
+                  <ion-icon name="person-outline"></ion-icon>
+                  <input type="text" class="form-input" placeholder="John Doe" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" data-i18n="email_label">Email</label>
+                <div class="input-with-icon">
+                  <ion-icon name="mail-outline"></ion-icon>
+                  <input type="email" class="form-input" placeholder="you@example.com" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" data-i18n="password_label">Password</label>
+                <div class="input-with-icon">
+                  <ion-icon name="lock-closed-outline"></ion-icon>
+                  <input type="password" class="form-input" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                    required>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-newsletter" data-i18n="sign_up">Sign Up</button>
+
+              <p class="form-switch">
+                <span data-i18n="have_account">Already have an account?</span>
+                <a href="#" id="show-login" data-i18n="login">Login</a>
+              </p>
+            </form>
+          </div>
+
         </div>
 
       </div>
@@ -152,7 +222,7 @@
 
     <div class="modal-close-overlay" data-cart-modal-overlay></div>
 
-    <div class="modal-content">
+    <div class="modal-content cart-modal-content">
 
       <button class="modal-close-btn" data-cart-modal-close>
         <ion-icon name="close-outline"></ion-icon>
@@ -160,10 +230,107 @@
 
       <div class="cart-content">
 
-        <h3 data-i18n="shopping_cart">Shopping Cart</h3>
+        <div class="cart-header">
+          <div class="cart-heading">
+            <h3 data-i18n="shopping_cart">Shopping Cart</h3>
+            <p class="cart-subtitle">
+              <span data-cart-count>0</span>
+              <span data-i18n="cart_items">items</span>
+            </p>
+          </div>
 
-        <div class="cart-items">
-          <p data-i18n="cart_empty">Your cart is empty.</p>
+          <button class="cart-clear-btn" data-cart-clear>
+            <ion-icon name="trash-outline"></ion-icon>
+            <span data-i18n="clear_cart">Clear cart</span>
+          </button>
+        </div>
+
+        <div class="cart-body">
+
+          <div class="cart-items-panel">
+
+            <div class="cart-shipping-progress-box" data-cart-shipping-box>
+              <p class="cart-shipping-text" data-cart-shipping-text></p>
+              <div class="cart-shipping-progress">
+                <span data-cart-shipping-progress></span>
+              </div>
+            </div>
+
+            <div class="cart-items">
+              <p data-i18n="cart_empty">Your cart is empty.</p>
+            </div>
+
+          </div>
+
+          <aside class="cart-summary">
+
+            <h4 class="cart-summary-title" data-i18n="order_summary">Order Summary</h4>
+
+            <div class="cart-summary-row">
+              <span data-i18n="subtotal">Subtotal</span>
+              <span data-cart-subtotal>$0.00</span>
+            </div>
+
+            <div class="cart-summary-row">
+              <span data-i18n="shipping">Shipping</span>
+              <span data-cart-shipping>&mdash;</span>
+            </div>
+
+            <div class="cart-summary-row cart-summary-row-discount hidden" data-cart-discount-row>
+              <span data-i18n="discount">Discount</span>
+              <span data-cart-discount>-$0.00</span>
+            </div>
+
+            <div class="cart-coupon">
+              <input type="text" class="cart-coupon-input" data-cart-coupon-input
+                data-i18n="coupon_placeholder" placeholder="Coupon code" autocomplete="off">
+              <button type="button" class="cart-coupon-btn" data-cart-coupon-apply data-i18n="apply">Apply</button>
+            </div>
+            <p class="cart-coupon-message" data-cart-coupon-message></p>
+
+            <div class="cart-summary-total">
+              <span data-i18n="total">Total</span>
+              <strong data-cart-total>$0.00</strong>
+            </div>
+
+            <button class="btn-newsletter checkout-btn" data-checkout-btn data-i18n="checkout">Checkout</button>
+
+            <button class="cart-continue-btn" data-cart-continue>
+              <ion-icon name="arrow-back-outline"></ion-icon>
+              <span data-i18n="continue_shopping">Continue shopping</span>
+            </button>
+
+            <ul class="cart-perks">
+              <li>
+                <ion-icon name="shield-checkmark-outline"></ion-icon>
+                <span data-i18n="secure_payment">Secure payment</span>
+              </li>
+              <li>
+                <ion-icon name="cube-outline"></ion-icon>
+                <span data-i18n="cart_free_shipping">Free shipping over $55</span>
+              </li>
+              <li>
+                <ion-icon name="refresh-outline"></ion-icon>
+                <span data-i18n="cart_free_returns">Free 30-day returns</span>
+              </li>
+            </ul>
+
+          </aside>
+
+        </div>
+
+        <div class="cart-confirm hidden" data-cart-clear-confirm>
+          <div class="cart-confirm-box" role="alertdialog" aria-modal="true" aria-labelledby="cart-confirm-title">
+            <div class="cart-confirm-icon">
+              <ion-icon name="trash-outline"></ion-icon>
+            </div>
+            <h4 class="cart-confirm-title" id="cart-confirm-title" data-i18n="clear_cart">Clear cart</h4>
+            <p class="cart-confirm-text" data-i18n="clear_cart_confirm">Remove all items from your cart?</p>
+            <div class="cart-confirm-actions">
+              <button type="button" class="cart-confirm-cancel" data-cart-clear-cancel data-i18n="cancel">Cancel</button>
+              <button type="button" class="cart-confirm-accept" data-cart-clear-accept data-i18n="clear_cart">Clear cart</button>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -180,7 +347,7 @@
 
     <div class="modal-close-overlay" data-favorites-modal-overlay></div>
 
-    <div class="modal-content">
+    <div class="modal-content favorites-modal-content">
 
       <button class="modal-close-btn" data-favorites-modal-close>
         <ion-icon name="close-outline"></ion-icon>
@@ -188,7 +355,12 @@
 
       <div class="favorites-content">
 
-        <h3 data-i18n="favorites">Favorites</h3>
+        <div class="favorites-header">
+          <div class="favorites-heading">
+            <h3 data-i18n="favorites">Favorites</h3>
+            <p class="favorites-subtitle" data-favorites-subtitle></p>
+          </div>
+        </div>
 
         <div class="favorites-items">
           <p data-i18n="favorites_empty">No favorites yet.</p>
@@ -304,6 +476,26 @@
 
 
 
+
+  <!--
+    - CHRISTMAS PROMO BAR
+  -->
+
+  <aside class="christmas-promo" data-christmas-promo>
+    <div class="container christmas-promo-inner">
+      <p class="christmas-promo-text">
+        <ion-icon name="sparkles-outline" aria-hidden="true"></ion-icon>
+        <span data-i18n="christmas_promo">Christmas Sale · 10% off sitewide</span>
+      </p>
+
+      <div class="christmas-countdown" data-christmas-countdown data-ends-at="2027-01-06T23:59:59">
+        <span class="christmas-countdown-label" data-i18n="christmas_ends">Ends in</span>
+        <span class="christmas-countdown-value" data-christmas-countdown-value aria-live="off">--d --h --m --s</span>
+      </div>
+
+      <a href="#products" class="christmas-promo-btn" data-i18n="christmas_shop">Shop the sale</a>
+    </div>
+  </aside>
 
   <!--
     - HEADER
@@ -986,6 +1178,11 @@
 
             <div class="banner-content">
 
+              <p class="christmas-hero-badge">
+                <ion-icon name="gift-outline" aria-hidden="true"></ion-icon>
+                <span data-i18n="christmas_hero_badge">Christmas Sale · 10% off</span>
+              </p>
+
               <p class="banner-subtitle" data-i18n="trending_item">Trending item</p>
 
               <h2 class="banner-title" data-i18n="womens_latest_sale">Women's latest fashion sale</h2>
@@ -1633,8 +1830,8 @@
                     </div>
 
                     <div class="price-box">
-                      <del>$5.00</del>
-                      <p class="price">$4.00</p>
+                      <del data-christmas-original-del="$5.00">$4.00</del>
+                      <p class="price" data-christmas-base="4.00">$3.60</p>
                     </div>
 
                   </div>
@@ -1662,8 +1859,8 @@
                     </div>
 
                     <div class="price-box">
-                      <del>$17.00</del>
-                      <p class="price">$7.00</p>
+                      <del data-christmas-original-del="$17.00">$7.00</del>
+                      <p class="price" data-christmas-base="7.00">$6.30</p>
                     </div>
 
                   </div>
@@ -1691,8 +1888,8 @@
                     </div>
 
                     <div class="price-box">
-                      <del>$5.00</del>
-                      <p class="price">$3.00</p>
+                      <del data-christmas-original-del="$5.00">$3.00</del>
+                      <p class="price" data-christmas-base="3.00">$2.70</p>
                     </div>
 
                   </div>
@@ -1720,8 +1917,8 @@
                     </div>
 
                     <div class="price-box">
-                      <del>$15.00</del>
-                      <p class="price">$12.00</p>
+                      <del data-christmas-original-del="$15.00">$12.00</del>
+                      <p class="price" data-christmas-base="12.00">$10.80</p>
                     </div>
 
                   </div>
@@ -1770,8 +1967,8 @@
                       <a href="#" class="showcase-category">Clothes</a>
 
                       <div class="price-box">
-                        <p class="price">$45.00</p>
-                        <del>$12.00</del>
+                        <p class="price" data-christmas-base="45.00">$40.50</p>
+                        <del data-christmas-original-del="$12.00">$45.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -1795,8 +1992,8 @@
                       <a href="#" class="showcase-category">Clothes</a>
 
                       <div class="price-box">
-                        <p class="price">$61.00</p>
-                        <del>$9.00</del>
+                        <p class="price" data-christmas-base="61.00">$54.90</p>
+                        <del data-christmas-original-del="$9.00">$61.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -1820,8 +2017,8 @@
                       <a href="#" class="showcase-category">Clothes</a>
 
                       <div class="price-box">
-                        <p class="price">$76.00</p>
-                        <del>$25.00</del>
+                        <p class="price" data-christmas-base="76.00">$68.40</p>
+                        <del data-christmas-original-del="$25.00">$76.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -1845,8 +2042,8 @@
                       <a href="#" class="showcase-category">Mens Fashion</a>
 
                       <div class="price-box">
-                        <p class="price">$68.00</p>
-                        <del>$31.00</del>
+                        <p class="price" data-christmas-base="68.00">$61.20</p>
+                        <del data-christmas-original-del="$31.00">$68.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -1874,8 +2071,8 @@
                       <a href="#" class="showcase-category">Winter wear</a>
 
                       <div class="price-box">
-                        <p class="price">$61.00</p>
-                        <del>$11.00</del>
+                        <p class="price" data-christmas-base="61.00">$54.90</p>
+                        <del data-christmas-original-del="$11.00">$61.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -1899,8 +2096,8 @@
                       <a href="#" class="showcase-category">Winter wear</a>
 
                       <div class="price-box">
-                        <p class="price">$32.00</p>
-                        <del>$20.00</del>
+                        <p class="price" data-christmas-base="32.00">$28.80</p>
+                        <del data-christmas-original-del="$20.00">$32.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -1924,8 +2121,8 @@
                       <a href="#" class="showcase-category">Jackets</a>
 
                       <div class="price-box">
-                        <p class="price">$50.00</p>
-                        <del>$25.00</del>
+                        <p class="price" data-christmas-base="50.00">$45.00</p>
+                        <del data-christmas-original-del="$25.00">$50.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -1949,8 +2146,8 @@
                       <a href="#" class="showcase-category">Shorts</a>
 
                       <div class="price-box">
-                        <p class="price">$20.00</p>
-                        <del>$10.00</del>
+                        <p class="price" data-christmas-base="20.00">$18.00</p>
+                        <del data-christmas-original-del="$10.00">$20.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -1988,8 +2185,8 @@
                       <a href="#" class="showcase-category">Sports</a>
 
                       <div class="price-box">
-                        <p class="price">$49.00</p>
-                        <del>$15.00</del>
+                        <p class="price" data-christmas-base="49.00">$44.10</p>
+                        <del data-christmas-original-del="$15.00">$49.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -2013,8 +2210,8 @@
                       <a href="#" class="showcase-category">Sports</a>
 
                       <div class="price-box">
-                        <p class="price">$78.00</p>
-                        <del>$36.00</del>
+                        <p class="price" data-christmas-base="78.00">$70.20</p>
+                        <del data-christmas-original-del="$36.00">$78.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -2038,8 +2235,8 @@
                       <a href="#" class="showcase-category">Party wear</a>
 
                       <div class="price-box">
-                        <p class="price">$94.00</p>
-                        <del>$42.00</del>
+                        <p class="price" data-christmas-base="94.00">$84.60</p>
+                        <del data-christmas-original-del="$42.00">$94.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -2063,8 +2260,8 @@
                       <a href="#" class="showcase-category">Sports</a>
 
                       <div class="price-box">
-                        <p class="price">$54.00</p>
-                        <del>$65.00</del>
+                        <p class="price" data-christmas-base="54.00">$48.60</p>
+                        <del data-christmas-original-del="$65.00">$54.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -2092,8 +2289,8 @@
                       <a href="#" class="showcase-category">Sports</a>
 
                       <div class="price-box">
-                        <p class="price">$52.00</p>
-                        <del>$55.00</del>
+                        <p class="price" data-christmas-base="52.00">$46.80</p>
+                        <del data-christmas-original-del="$55.00">$52.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -2117,8 +2314,8 @@
                       <a href="#" class="showcase-category">boots</a>
 
                       <div class="price-box">
-                        <p class="price">$20.00</p>
-                        <del>$30.00</del>
+                        <p class="price" data-christmas-base="20.00">$18.00</p>
+                        <del data-christmas-original-del="$30.00">$20.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -2142,8 +2339,8 @@
                       <a href="#" class="showcase-category">formal</a>
 
                       <div class="price-box">
-                        <p class="price">$56.00</p>
-                        <del>$78.00</del>
+                        <p class="price" data-christmas-base="56.00">$50.40</p>
+                        <del data-christmas-original-del="$78.00">$56.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -2167,8 +2364,8 @@
                       <a href="#" class="showcase-category">Casual</a>
 
                       <div class="price-box">
-                        <p class="price">$50.00</p>
-                        <del>$55.00</del>
+                        <p class="price" data-christmas-base="50.00">$45.00</p>
+                        <del data-christmas-original-del="$55.00">$50.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -2206,8 +2403,8 @@
                       <a href="#" class="showcase-category">Watches</a>
 
                       <div class="price-box">
-                        <p class="price">$50.00</p>
-                        <del>$34.00</del>
+                        <p class="price" data-christmas-base="50.00">$45.00</p>
+                        <del data-christmas-original-del="$34.00">$50.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -2231,8 +2428,8 @@
                       <a href="#" class="showcase-category">Jewellery</a>
 
                       <div class="price-box">
-                        <p class="price">$84.00</p>
-                        <del>$30.00</del>
+                        <p class="price" data-christmas-base="84.00">$75.60</p>
+                        <del data-christmas-original-del="$30.00">$84.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -2256,8 +2453,8 @@
                       <a href="#" class="showcase-category">Perfume</a>
 
                       <div class="price-box">
-                        <p class="price">$42.00</p>
-                        <del>$10.00</del>
+                        <p class="price" data-christmas-base="42.00">$37.80</p>
+                        <del data-christmas-original-del="$10.00">$42.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -2281,8 +2478,8 @@
                       <a href="#" class="showcase-category">Belt</a>
 
                       <div class="price-box">
-                        <p class="price">$24.00</p>
-                        <del>$10.00</del>
+                        <p class="price" data-christmas-base="24.00">$21.60</p>
+                        <del data-christmas-original-del="$10.00">$24.00</del>
                       </div>
                       <button class="add-cart-btn" data-i18n="add_to_cart">add to cart</button>
 
@@ -2310,8 +2507,8 @@
                       <a href="#" class="showcase-category">jewellery</a>
 
                       <div class="price-box">
-                        <p class="price">$62.00</p>
-                        <del>$65.00</del>
+                        <p class="price" data-christmas-base="62.00">$55.80</p>
+                        <del data-christmas-original-del="$65.00">$62.00</del>
                       </div>
 
                     </div>
@@ -2334,8 +2531,8 @@
                       <a href="#" class="showcase-category">Watches</a>
 
                       <div class="price-box">
-                        <p class="price">$56.00</p>
-                        <del>$78.00</del>
+                        <p class="price" data-christmas-base="56.00">$50.40</p>
+                        <del data-christmas-original-del="$78.00">$56.00</del>
                       </div>
 
                     </div>
@@ -2358,8 +2555,8 @@
                       <a href="#" class="showcase-category">cosmetics</a>
 
                       <div class="price-box">
-                        <p class="price">$20.00</p>
-                        <del>$30.00</del>
+                        <p class="price" data-christmas-base="20.00">$18.00</p>
+                        <del data-christmas-original-del="$30.00">$20.00</del>
                       </div>
 
                     </div>
@@ -2382,8 +2579,8 @@
                       <a href="#" class="showcase-category">jewellery</a>
 
                       <div class="price-box">
-                        <p class="price">$20.00</p>
-                        <del>$30.00</del>
+                        <p class="price" data-christmas-base="20.00">$18.00</p>
+                        <del data-christmas-original-del="$30.00">$20.00</del>
                       </div>
 
                     </div>
@@ -2439,9 +2636,9 @@
                     </p>
 
                     <div class="price-box">
-                      <p class="price">$150.00</p>
+                      <p class="price" data-christmas-base="150.00">$135.00</p>
 
-                      <del>$200.00</del>
+                      <del data-christmas-original-del="$200.00">$150.00</del>
                     </div>
 
                     <button class="add-cart-btn" data-i18n="add_to_cart_btn">add to cart</button>
@@ -2530,8 +2727,8 @@
                     </p>
 
                     <div class="price-box">
-                      <p class="price">$1990.00</p>
-                      <del>$2000.00</del>
+                      <p class="price" data-christmas-base="1990.00">$1791.00</p>
+                      <del data-christmas-original-del="$2000.00">$1990.00</del>
                     </div>
 
                     <button class="add-cart-btn" data-i18n="add_to_cart_btn">add to cart</button>
@@ -2644,8 +2841,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">$48.00</p>
-                    <del>$75.00</del>
+                    <p class="price" data-christmas-base="48.00">$43.20</p>
+                    <del data-christmas-original-del="$75.00">$48.00</del>
                   </div>
 
                 </div>
@@ -2695,8 +2892,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">$45.00</p>
-                    <del>$56.00</del>
+                    <p class="price" data-christmas-base="45.00">$40.50</p>
+                    <del data-christmas-original-del="$56.00">$45.00</del>
                   </div>
 
                 </div>
@@ -2744,8 +2941,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">$58.00</p>
-                    <del>$65.00</del>
+                    <p class="price" data-christmas-base="58.00">$52.20</p>
+                    <del data-christmas-original-del="$65.00">$58.00</del>
                   </div>
 
                 </div>
@@ -2795,8 +2992,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">$25.00</p>
-                    <del>$35.00</del>
+                    <p class="price" data-christmas-base="25.00">$22.50</p>
+                    <del data-christmas-original-del="$35.00">$25.00</del>
                   </div>
 
                 </div>
@@ -2844,8 +3041,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">$99.00</p>
-                    <del>$105.00</del>
+                    <p class="price" data-christmas-base="99.00">$89.10</p>
+                    <del data-christmas-original-del="$105.00">$99.00</del>
                   </div>
 
                 </div>
@@ -2895,8 +3092,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">$150.00</p>
-                    <del>$170.00</del>
+                    <p class="price" data-christmas-base="150.00">$135.00</p>
+                    <del data-christmas-original-del="$170.00">$150.00</del>
                   </div>
 
                 </div>
@@ -2944,8 +3141,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">$100.00</p>
-                    <del>$120.00</del>
+                    <p class="price" data-christmas-base="100.00">$90.00</p>
+                    <del data-christmas-original-del="$120.00">$100.00</del>
                   </div>
 
                 </div>
@@ -2995,8 +3192,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">$25.00</p>
-                    <del>$30.00</del>
+                    <p class="price" data-christmas-base="25.00">$22.50</p>
+                    <del data-christmas-original-del="$30.00">$25.00</del>
                   </div>
 
                 </div>
@@ -3044,8 +3241,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">$32.00</p>
-                    <del>$45.00</del>
+                    <p class="price" data-christmas-base="32.00">$28.80</p>
+                    <del data-christmas-original-del="$45.00">$32.00</del>
                   </div>
 
                 </div>
@@ -3095,8 +3292,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">$58.00</p>
-                    <del>$64.00</del>
+                    <p class="price" data-christmas-base="58.00">$52.20</p>
+                    <del data-christmas-original-del="$64.00">$58.00</del>
                   </div>
 
                 </div>
@@ -3144,8 +3341,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">$50.00</p>
-                    <del>$65.00</del>
+                    <p class="price" data-christmas-base="50.00">$45.00</p>
+                    <del data-christmas-original-del="$65.00">$50.00</del>
                   </div>
 
                 </div>
@@ -3197,8 +3394,8 @@
                   </div>
 
                   <div class="price-box">
-                    <p class="price">$78.00</p>
-                    <del>$85.00</del>
+                    <p class="price" data-christmas-base="78.00">$70.20</p>
+                    <del data-christmas-original-del="$85.00">$78.00</del>
                   </div>
 
                 </div>
@@ -3263,19 +3460,19 @@
             - CTA
           -->
 
-          <div class="cta-container">
+          <div class="cta-container christmas-cta">
 
-            <img src="./assets/images/cta-banner.jpg" alt="summer collection" class="cta-banner">
+            <img src="./assets/images/cta-banner.jpg" alt="Christmas gift collection" class="cta-banner">
 
-            <a href="#" class="cta-content">
+            <a href="#products" class="cta-content">
 
-              <p class="discount">25% Discount</p>
+              <p class="discount" data-i18n="christmas_cta_badge">Christmas Sale · 10% off</p>
 
-              <h2 class="cta-title">Summer collection</h2>
+              <h2 class="cta-title" data-i18n="christmas_cta_title">Gifts they'll love</h2>
 
-              <p class="cta-text">Starting @ $10</p>
+              <p class="cta-text" data-i18n="christmas_cta_text">Christmas deals from $2.70</p>
 
-              <button class="cta-btn">Shop now</button>
+              <button class="cta-btn" data-i18n="christmas_cta_btn">Shop the Christmas sale</button>
 
             </a>
 
